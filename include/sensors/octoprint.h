@@ -4,6 +4,7 @@
 #include <OctoPrintAPI.h>
 #include <WiFiNINA.h>
 
+#include "config.h"
 #include "sensor.h"
 
 typedef struct {

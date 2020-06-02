@@ -12,8 +12,8 @@
 //const char OCTOPRINT_APIKEY[] = ""; // Octoprint Key
 
 /* Debug */
-#define DEBUG
-
+#define FS_DEBUG
+#define _DEBUG_
 /* AMBIANT SENSOR */
 #define TEMP_HUMIDITY_PIN 0  // DHT11 or DHT22 pin
 

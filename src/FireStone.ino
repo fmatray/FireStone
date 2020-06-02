@@ -25,7 +25,7 @@ void setup() {
   display.begin();
   display.clear();
 
-#ifdef DEBUG
+#ifdef FS_DEBUG
   unsigned long wait_serial = millis();
   pinMode(LED_BUILTIN, OUTPUT);
   Serial.begin(115200);
@@ -77,12 +77,12 @@ void setup() {
   display.start();
   Scheduler.startLoop(display_loop);
   Scheduler.startLoop(controler_loop);
-#ifdef DEBUG
+#ifdef FS_DEBUG
   freememory();
 #endif
 }
 
-#ifdef DEBUG
+#ifdef FS_DEBUG
 unsigned long start = 0;
 unsigned long loop0 = 0;
 unsigned long loop1 = 0;
@@ -90,9 +90,8 @@ unsigned long loop2 = 0;
 #endif
 
 void loop() {
-#ifdef DEBUG
+#ifdef FS_DEBUG
   static unsigned long freememory_lasttime = 0;
-  unsigned long start_time                 = millis();
 
   if (check_time(freememory_lasttime, 10)) {
     freememory();
@@ -108,19 +107,19 @@ void loop() {
   wificonnexion.run();
   octoprint_sensor.run();
   delay(100);
-#ifdef DEBUG
-  if (millis() - start_time > 5000) {
-    Serial.print("Loop: ");
-    Serial.println(millis() - start_time);
+#ifdef FS_DEBUG
+  if (millis() - loop0 > 5000) {
+    Serial.print("Loop0: ");
+    Serial.println(millis() - loop0);
   }
 #endif
 }
 
 void controler_loop() {
-#ifdef DEBUG
+#ifdef FS_DEBUG
   loop1 = millis();
 #endif
-  ambiant_sensor.run();
+//  ambiant_sensor.run();
   emergency_sensor.run();
   fire_sensor.run();
   /* Run Controler */
@@ -132,14 +131,26 @@ void controler_loop() {
   relay2.run();
   relay3.run();
   relay4.run();
+#ifdef FS_DEBUG
+  if (millis() - loop1 > 5000) {
+    Serial.print("Loop1: ");
+    Serial.println(millis() - loop1);
+  }
+#endif
   yield();
 }
 
 void display_loop() {
-#ifdef DEBUG
+#ifdef FS_DEBUG
   loop2 = millis();
 #endif
   display.run();
+#ifdef FS_DEBUG
+  if (millis() - loop2 > 5000) {
+    Serial.print("Loop2: ");
+    Serial.println(millis() - loop2);
+  }
+#endif
   yield();
 }
 
@@ -150,7 +161,9 @@ void shutdown() {
   title("We must reset!");
   display.shutdown();
 
-#ifdef DEBUG
+#ifdef FS_DEBUG
+  Serial.print("Now:");
+  Serial.println(millis());
   Serial.print("Start:");
   Serial.println(millis() - start);
   Serial.print("Loop 0:");

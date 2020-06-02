@@ -30,7 +30,6 @@ void WifiConnexion::begin() {
     Serial.println("Please upgrade the firmware");
   }
   connect_delay();
-  updateRTC();
 }
 
 /*
@@ -119,8 +118,8 @@ void WifiConnexion::updateRTC() {
     rtc_update_start = millis();
     do {
       epoch = WiFi.getTime();
-      delay(100);
-    } while (epoch == 0 && millis() - rtc_update_start < 5000);
+      delay(1000);
+    } while (epoch == 0 && check_time(rtc_update_start, 5));
 
     if (epoch) {
       Serial.print("Epoch received: ");
@@ -129,7 +128,7 @@ void WifiConnexion::updateRTC() {
       Serial.print(": ");
       printlndatetime();
     } else
-      Serial.print("NTP unreachable!!");
+      Serial.println("NTP unreachable!!");
     rtc_lasttime = millis();
   }
 }

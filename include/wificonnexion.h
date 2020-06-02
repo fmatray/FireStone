@@ -1,6 +1,7 @@
 #ifndef WIFICONNEXION_H
 #define WIFICONNEXION_H
 #include <WiFiNINA.h>
+#include "config.h"
 
 #define WIFI_TRIES 5
 

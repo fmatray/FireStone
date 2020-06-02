@@ -5,8 +5,8 @@
 #include <WiFiNINA.h>
 
 #include "config.h"
+#include "debug.h"
 #include "helpers.h"
-
 /*
     SETUP
 */
@@ -21,7 +21,7 @@ void OctoPrintSensor::begin() {
   title("Octoprint Setup");
   api = new OctoprintApi(client, ip, port, api_key);
   client.setConnectTimeout(500);
-#ifdef DEBUG
+#ifdef FS_DEBUG
   api->_debug = true;
 #endif
 }
@@ -64,14 +64,12 @@ void OctoPrintSensor::run() {
 }
 
 bool OctoPrintSensor::read() {
-#ifdef DEBUG
-  Serial.println("Start Reading");
-#endif
+  DEBUG1("Start reading");
   octoprint_status = not_connected;
   bool ret         = api->getPrinterStatistics();
   printer_state    = api->printerStats.printerState;
   printer_working  = false;
-
+  DEBUG1("Answer");
   if (!ret || printer_state == "Printer is not operational") {  // Reset
     printer_operational = false;
     printer_status      = unknow;
@@ -83,6 +81,7 @@ bool OctoPrintSensor::read() {
       printer_state  = "Cannot connect to OctoPrint";
       printer_status = closed;
       status         = ERROR;
+      DEBUG1(printer_state);
       return false;
     }
     status           = IDLE;
@@ -131,6 +130,7 @@ bool OctoPrintSensor::read() {
     bed_target = api->printerStats.printerBedTempTarget;
     bed_offset = api->printerStats.printerBedTempOffset;
   }
+  DEBUG1(printer_state);
   return true;
 }
 /*
@@ -191,6 +191,7 @@ status_e OctoPrintSensor::check_temperature(const char *item, const float temp, 
 }
 
 status_e OctoPrintSensor::check_version() {
+  DEBUG1("Start check version");
   if (api->getOctoprintVersion()) {
     title("OctoPrint Version");
 
@@ -203,6 +204,7 @@ status_e OctoPrintSensor::check_version() {
     Serial.println(octoprint_version);
     return OK;
   }
+  DEBUG1("Error check version");
   return ERROR;
 }
 
@@ -231,7 +233,9 @@ String OctoPrintSensor::get_printer_status_as_str() {
 }
 
 void OctoPrintSensor::read_job() {
+  DEBUG1("Start read job");
   bool ret = api->getPrintJob();
 
   completion = ret ? api->printJob.progressCompletion : 0;
+  DEBUG1("End read job");
 }
