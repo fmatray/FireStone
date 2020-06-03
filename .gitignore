@@ -38,3 +38,4 @@ secrets.h
 .pio/
 .travis.yml
 .vscode/
+test/output_export.cpp

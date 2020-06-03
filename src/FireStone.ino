@@ -119,7 +119,7 @@ void controler_loop() {
 #ifdef FS_DEBUG
   loop1 = millis();
 #endif
-//  ambiant_sensor.run();
+  ambiant_sensor.run();
   emergency_sensor.run();
   fire_sensor.run();
   /* Run Controler */
