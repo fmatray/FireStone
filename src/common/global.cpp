@@ -2,7 +2,7 @@
 #include <RTCZero.h>
 
 #include "config.h"
-#include "wificonnexion.h"
+#include "common/wificonnexion.h"
 
 /* SENSORS */
 #include "sensors/ambiant.h"
@@ -24,7 +24,7 @@ WifiConnexion wificonnexion(WIFI_SSID, WIFI_PASSWORD);
 AmbiantSensor ambiant_sensor(TEMP_HUMIDITY_PIN);
 EmergencySensor emergency_sensor(EMERGENCY_PIN);
 FireSensor fire_sensor(FIRE_PIN);
-OctoPrintSensor octoprint_sensor(OCTOPRINT_IP, OCTOPRINT_PORT, OCTOPRINT_APIKEY);
+OctoPrintSensor octoprint_sensor;
 
 /*  Actions */
 BuzzerAction buzzer(BUZZER_PIN, BUZZER_ACTIVE);

@@ -1,6 +1,6 @@
+#include "common/global.h"
+#include "common/helpers.h"
 #include "config.h"
-#include "global.h"
-#include "helpers.h"
 
 LiquidCrystal_PCF8574 lcd(LCD_ADDRESS);
 

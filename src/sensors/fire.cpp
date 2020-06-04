@@ -1,6 +1,6 @@
 #include "sensors/fire.h"
 
-#include "helpers.h"
+#include "common/helpers.h"
 
 /*
    SETUP

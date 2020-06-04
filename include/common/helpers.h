@@ -2,8 +2,8 @@
 #define HELPERS_H
 #include <RTCZero.h>
 
-#include "global.h"
-#include "status.h"
+#include "common/global.h"
+#include "common/status.h"
 
 /*
  *  Serial helpers

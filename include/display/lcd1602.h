@@ -5,7 +5,7 @@
 #include <Wire.h>
 
 #include "display.h"
-#include "status.h"
+#include "common/status.h"
 
 class LCD1602 : public Display {
  public:

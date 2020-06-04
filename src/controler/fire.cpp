@@ -1,6 +1,6 @@
 #include "controler/fire.h"
 
-#include "global.h"
+#include "common/global.h"
 
 bool FireRule::proceed(actions_t &actions) {
   if (fire_sensor.get_status() == ALERT) {

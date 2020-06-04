@@ -5,7 +5,7 @@
 #include <WDTZero.h>
 
 /* Communication */
-#include "wificonnexion.h"
+#include "common/wificonnexion.h"
 
 /* SENSORS */
 #include "sensors/ambiant.h"

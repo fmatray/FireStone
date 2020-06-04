@@ -2,7 +2,7 @@
 
 #include <Arduino.h>
 
-#include "helpers.h"
+#include "common/helpers.h"
 
 BuzzerAction::BuzzerAction(uint8_t _pin, bool _active) {
   pin    = _pin;

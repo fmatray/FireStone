@@ -4,7 +4,7 @@
 #include "controler/emergency.h"
 #include "controler/fire.h"
 #include "controler/octoprint.h"
-#include "helpers.h"
+#include "common/helpers.h"
 
 Controler::Controler(const uint8_t _reset_pin) { reset_pin = _reset_pin; }
 

@@ -1,6 +1,6 @@
 #ifndef DEBUG_H
 #define DEBUG_H
-
+#include "config.h"
 #ifdef FS_DEBUG
 void freememory();
 

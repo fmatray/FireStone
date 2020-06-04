@@ -1,6 +1,6 @@
 #ifndef SENSOR_H
 #define SENSOR_H
-#include "status.h"
+#include "common/status.h"
 
 class Sensor {
  public:

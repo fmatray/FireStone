@@ -1,9 +1,9 @@
-#include "settings.h"
+#include "common/settings.h"
 
 #include <FlashStorage.h>
 
-#include "global.h"
-#include "helpers.h"
+#include "common/global.h"
+#include "common/helpers.h"
 
 void SettingsData::populate(const SettingsData *obj) {
   timezone_offset = obj->timezone_offset;

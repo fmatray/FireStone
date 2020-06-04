@@ -1,6 +1,6 @@
 #include "controler/ambiant.h"
 
-#include "global.h"
+#include "common/global.h"
 
 bool AmbiantRule::proceed(actions_t &actions) {
   if (ambiant_sensor.get_status() == WARNING) {

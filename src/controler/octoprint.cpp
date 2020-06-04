@@ -1,6 +1,6 @@
 #include "controler/octoprint.h"
 
-#include "global.h"
+#include "common/global.h"
 
 bool OctoprintRule::proceed(actions_t &actions) {
   status_e status = octoprint_sensor.get_status();

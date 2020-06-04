@@ -1,7 +1,7 @@
 #ifndef NOTIF_H
 #define NOTIF_H
 #include "action.h"
-#include "status.h"
+#include "common/status.h"
 
 
 class NotifAction : Action {

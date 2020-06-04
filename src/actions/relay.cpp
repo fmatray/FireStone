@@ -2,7 +2,7 @@
 
 #include <Arduino.h>
 
-#include "helpers.h"
+#include "common/helpers.h"
 
 RelayAction::RelayAction(uint8_t _pin) {
   pin = _pin;

@@ -2,9 +2,9 @@
 
 #include <Arduino.h>
 
+#include "common/global.h"
+#include "common/settings.h"
 #include "config.h"
-#include "global.h"
-#include "settings.h"
 
 #if DISPLAY_TYPE == LCD1602
 #include <LiquidCrystal_PCF8574.h>

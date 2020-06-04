@@ -4,27 +4,9 @@
 #include <SPI.h>
 #include <WiFiNINA.h>
 
+#include "common/debug.h"
+#include "common/helpers.h"
 #include "config.h"
-#include "debug.h"
-#include "helpers.h"
-/*
-    SETUP
-*/
-
-OctoPrintSensor::OctoPrintSensor(IPAddress _ip, uint16_t _octoprint_port, const String _octoprint_apikey) {
-  ip      = _ip;
-  port    = _octoprint_port;
-  api_key = _octoprint_apikey;
-}
-
-void OctoPrintSensor::begin() {
-  title("Octoprint Setup");
-  api = new OctoprintApi(client, ip, port, api_key);
-  client.setConnectTimeout(500);
-#ifdef FS_DEBUG
-  api->_debug = true;
-#endif
-}
 
 void OctoPrintSensor::update(const octoprint_settings_t _settings) {
   max_temp_ext0 = _settings.max_temp_ext0;

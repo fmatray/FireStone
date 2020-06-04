@@ -2,7 +2,7 @@
 #define CONTROLER_H
 
 #include "rule.h"
-#include "status.h"
+#include "common/status.h"
 
 #define RULES_SIZE     10
 #define RESET_INTERVAL 1000  // 2s debounce to avoid false manipulation

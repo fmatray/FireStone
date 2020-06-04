@@ -1,6 +1,6 @@
 #include "controler/emergency.h"
 
-#include "global.h"
+#include "common/global.h"
 
 bool EmergencyRule::proceed(actions_t &actions) {
   if (emergency_sensor.get_status() == ALERT) {

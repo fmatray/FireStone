@@ -1,10 +1,10 @@
-#include "wificonnexion.h"
+#include "common/wificonnexion.h"
 
 #include <RTCZero.h>
 #include <WiFiUdp.h>
 
-#include "global.h"
-#include "helpers.h"
+#include "common/global.h"
+#include "common/helpers.h"
 
 /*
     SETUP

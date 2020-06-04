@@ -1,9 +1,10 @@
-#ifndef OCTOPRINT_H
-#define OCTOPRINT_H
+#ifndef OCTOPRINT_SENSOR_H
+#define OCTOPRINT_SENSOR_H
 #include <Arduino.h>
 #include <OctoPrintAPI.h>
 #include <WiFiNINA.h>
 
+#include "common/octoprint.h"
 #include "config.h"
 #include "sensor.h"
 
@@ -31,10 +32,9 @@ enum printer_status_e {
   unknow
 };
 
-class OctoPrintSensor : public Sensor {
+class OctoPrintSensor : public OctoprintBase, public Sensor {
  public:
-  OctoPrintSensor(IPAddress _ip, uint16_t _octoprint_port, String _octoprint_apikey);
-  void begin();
+  void begin() { OctoprintBase::begin(); };
   void update(const octoprint_settings_t _settings);
   bool test() { return check_version() == OK; };
   void reset();
@@ -84,13 +84,7 @@ class OctoPrintSensor : public Sensor {
   status_e check_version();
   void read_job();
 
-  OctoprintApi *api;
-  IPAddress ip;
-  uint16_t port;
-  String api_key;
   uint8_t interval;
-
-  WiFiClient client;
 
   /* Version */
   String api_version;

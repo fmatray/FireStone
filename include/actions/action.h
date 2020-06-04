@@ -1,7 +1,7 @@
 #ifndef ACTION_H
 #define ACTION_H
 #include <Arduino.h>
-#include "status.h"
+#include "common/status.h"
 
 class Action {
  public:

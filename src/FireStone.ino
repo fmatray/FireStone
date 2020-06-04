@@ -2,12 +2,12 @@
 #include <Scheduler.h>
 #include <WDTZero.h>
 
+#include "common/debug.h"
+#include "common/global.h"
+#include "common/helpers.h"
+#include "common/settings.h"
 #include "config.h"
 #include "controler/controler.h"
-#include "debug.h"
-#include "global.h"
-#include "helpers.h"
-#include "settings.h"
 
 /* Display */
 #if DISPLAY_TYPE == LCD1602

@@ -3,7 +3,7 @@
 #include "actions/relay.h"
 #include "sensors/ambiant.h"
 #include "sensors/octoprint.h"
-#include "status.h"
+#include "common/status.h"
 /* Data */
 
 class SettingsData {

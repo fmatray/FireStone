@@ -2,7 +2,7 @@
 #define RULE_H
 #include <Arduino.h>
 
-#include "status.h"
+#include "common/status.h"
 
 typedef struct {
   status_e global;
