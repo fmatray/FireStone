@@ -49,12 +49,12 @@ void LCD1602::run() {
       {2, &LCD1602::show_datetime, rtc.isConfigured()},
       {2, &LCD1602::show_octoprint_status, !octoprint_sensor.is_printer_operational()},
       {3, &LCD1602::show_printer_status, octoprint_sensor.is_octoprint_connected()},
-      {5, &LCD1602::show_ext0_temp, octoprint_sensor.is_printer_operational()},
-      {5, &LCD1602::show_ext1_temp, octoprint_sensor.is_printer_operational()},
-      {5, &LCD1602::show_bed_temp, octoprint_sensor.is_printer_operational()},
+      {5, &LCD1602::show_ext0_temp, octoprint_sensor.is_ext0_available()},
+      {5, &LCD1602::show_ext1_temp, octoprint_sensor.is_ext1_available()},
+      {5, &LCD1602::show_bed_temp, octoprint_sensor.is_bed_available()},
       {3, &LCD1602::show_ambiant, true},
       {2, &LCD1602::show_relays, true},
-      {0, NULL}};
+      {0, NULL, false}};
 
   if (status == ERROR || status == WARNING || status == ALERT) {
     if (check_time(blink_lasttime, 1)) {

@@ -60,14 +60,17 @@ class OctoPrintSensor : public Sensor {
   uint8_t get_completion() { return completion; };
 
   /* Tools */
+  bool is_ext0_available() { return (printer_operational && ext0_available); };
   float get_ext0_temp() { return ext0_temp; };
   float get_ext0_target() { return ext0_target; };
   float get_ext0_offset() { return ext0_offset; };
 
+  bool is_ext1_available() { return (printer_operational && ext1_available); };
   float get_ext1_temp() { return ext1_temp; };
   float get_ext1_target() { return ext1_target; };
   float get_ext1_offset() { return ext1_offset; };
 
+  bool is_bed_available() { return (printer_operational && bed_available); };
   float get_bed_temp() { return bed_temp; };
   float get_bed_target() { return bed_target; };
   float get_bed_offset() { return bed_offset; };
@@ -106,19 +109,22 @@ class OctoPrintSensor : public Sensor {
   uint8_t completion;
 
   /* Temperatures */
-  float ext0_temp   = 0;
-  float ext0_target = 0;
-  float ext0_offset = 0;
+  bool ext0_available = false;
+  float ext0_temp     = 0;
+  float ext0_target   = 0;
+  float ext0_offset   = 0;
   status_e ext0_status;
 
-  float ext1_temp   = 0;
-  float ext1_target = 0;
-  float ext1_offset = 0;
+  bool ext1_available = false;
+  float ext1_temp     = 0;
+  float ext1_target   = 0;
+  float ext1_offset   = 0;
   status_e ext1_status;
 
-  float bed_temp   = 0;
-  float bed_target = 0;
-  float bed_offset = 0;
+  bool bed_available = false;
+  float bed_temp     = 0;
+  float bed_target   = 0;
+  float bed_offset   = 0;
   status_e bed_status;
 
   uint16_t max_temp_ext0;

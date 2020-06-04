@@ -65,18 +65,21 @@ void OctoPrintSensor::run() {
 
 bool OctoPrintSensor::read() {
   DEBUG1("Start reading");
-  octoprint_status = not_connected;
-  bool ret         = api->getPrinterStatistics();
-  printer_state    = api->printerStats.printerState;
-  printer_working  = false;
+  octoprint_status    = not_connected;
+  bool ret            = api->getPrinterStatistics();
+  printer_state       = api->printerStats.printerState;
+  printer_operational = false;
+  printer_status      = unknow;
+  printer_working     = false;
+  ext0_available      = false;
+  ext1_available      = false;
+  bed_available       = false;
+  ext0_temp           = 0;
+  ext1_temp           = 0;
+  bed_temp            = 0;
+
   DEBUG1("Answer");
   if (!ret || printer_state == "Printer is not operational") {  // Reset
-    printer_operational = false;
-    printer_status      = unknow;
-    ext0_temp           = 0;
-    ext1_temp           = 0;
-    bed_temp            = 0;
-
     if (!ret) {
       printer_state  = "Cannot connect to OctoPrint";
       printer_status = closed;
@@ -116,19 +119,22 @@ bool OctoPrintSensor::read() {
 
   // Sensors
   if (api->printerStats.printerTool0Available) {
-    ext0_temp   = api->printerStats.printerTool0TempActual;
-    ext0_target = api->printerStats.printerTool0TempTarget;
-    ext0_offset = api->printerStats.printerTool0TempOffset;
+    ext0_available = true;
+    ext0_temp      = api->printerStats.printerTool0TempActual;
+    ext0_target    = api->printerStats.printerTool0TempTarget;
+    ext0_offset    = api->printerStats.printerTool0TempOffset;
   }
   if (api->printerStats.printerTool1Available) {
-    ext1_temp   = api->printerStats.printerTool1TempActual;
-    ext1_target = api->printerStats.printerTool1TempTarget;
-    ext1_offset = api->printerStats.printerTool1TempOffset;
+    ext1_available = true;
+    ext1_temp      = api->printerStats.printerTool1TempActual;
+    ext1_target    = api->printerStats.printerTool1TempTarget;
+    ext1_offset    = api->printerStats.printerTool1TempOffset;
   }
   if (api->printerStats.printerBedAvailable) {
-    bed_temp   = api->printerStats.printerBedTempActual;
-    bed_target = api->printerStats.printerBedTempTarget;
-    bed_offset = api->printerStats.printerBedTempOffset;
+    bed_available = true;
+    bed_temp      = api->printerStats.printerBedTempActual;
+    bed_target    = api->printerStats.printerBedTempTarget;
+    bed_offset    = api->printerStats.printerBedTempOffset;
   }
   DEBUG1(printer_state);
   return true;
