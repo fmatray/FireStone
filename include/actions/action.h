@@ -13,7 +13,7 @@ enum action_e {
 class Action {
  public:
   virtual void run() = 0;
-  void set_status(action_e _status, String _message = "") {
+  void set(action_e _status, String _message = "") {
     action  = _status;
     message = _message;
   };

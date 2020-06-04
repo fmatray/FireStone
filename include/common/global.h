@@ -15,7 +15,9 @@
 
 /* Actions */
 #include "actions/buzzer.h"
+#include "actions/octoprint.h"
 #include "actions/relay.h"
+
 /* Display */
 #include "display/lcd1602.h"
 
@@ -33,6 +35,7 @@ extern OctoPrintSensor octoprint_sensor;
 
 /*  Actions */
 extern BuzzerAction buzzer;
+extern OctoPrintAction octoprint_action;
 extern RelayAction relay1;
 extern RelayAction relay2;
 extern RelayAction relay3;

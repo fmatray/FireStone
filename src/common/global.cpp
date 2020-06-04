@@ -1,8 +1,8 @@
 #include <Arduino.h>
 #include <RTCZero.h>
 
-#include "config.h"
 #include "common/wificonnexion.h"
+#include "config.h"
 
 /* SENSORS */
 #include "sensors/ambiant.h"
@@ -12,6 +12,7 @@
 
 /* ACTIONS */
 #include "actions/buzzer.h"
+#include "actions/octoprint.h"
 #include "actions/relay.h"
 
 /* Clock */
@@ -28,6 +29,7 @@ OctoPrintSensor octoprint_sensor;
 
 /*  Actions */
 BuzzerAction buzzer(BUZZER_PIN, BUZZER_ACTIVE);
+OctoPrintAction octoprint_action;
 RelayAction relay1(RELAY1_PIN);
 RelayAction relay2(RELAY2_PIN);
 RelayAction relay3(RELAY3_PIN);

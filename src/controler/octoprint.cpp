@@ -5,6 +5,10 @@
 bool OctoprintRule::proceed(Actions &actions) {
   status_e status = octoprint_sensor.get_status();
 
+  if (!octoprint_sensor.is_octoprint_connected() ||
+      !octoprint_sensor.is_printer_operational())
+    return false;
+
   switch (status) {
     case ALERT:
       actions = {alert,         // display

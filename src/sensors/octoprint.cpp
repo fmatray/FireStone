@@ -1,7 +1,6 @@
 #include "sensors/octoprint.h"
 
 #include <OctoPrintAPI.h>
-#include <SPI.h>
 #include <WiFiNINA.h>
 
 #include "common/debug.h"
@@ -179,6 +178,8 @@ status_e OctoPrintSensor::check_temperature(const char *item, const float temp, 
 }
 
 status_e OctoPrintSensor::check_version() {
+  if (WiFi.status() != WL_CONNECTED)
+    return ERROR;
   DEBUG1("Start check version");
   if (api->getOctoprintVersion()) {
     title("OctoPrint Version");

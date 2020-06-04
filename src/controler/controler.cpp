@@ -7,10 +7,10 @@
 #include "controler/octoprint.h"
 
 Actions action_reset = {off,       // display
-                          off, off,  // Buzzer, Octoprint
-                          off, off,  // Relay 1, 2,
-                          off, off,  // Relay 3,4
-                          ""};
+                        off, off,  // Buzzer, Octoprint
+                        off, off,  // Relay 1, 2,
+                        off, off,  // Relay 3,4
+                        ""};
 
 Controler::Controler(const uint8_t _reset_pin) { reset_pin = _reset_pin; }
 
@@ -35,6 +35,7 @@ void Controler::reset() {
   fire_sensor.reset();
   emergency_sensor.reset();
   octoprint_sensor.reset();
+  octoprint_action.reset();
 }
 
 void Controler::run() {
@@ -56,13 +57,13 @@ void Controler::run() {
 }
 
 void Controler::dispatch(const Actions actions) {
-  display.set_status(actions.display, actions.message);
-  buzzer.set_status(actions.buzzer);
-  //octoprint_action.set(actions.octoprint);
-  relay1.set_status(actions.relay1);
-  relay2.set_status(actions.relay1);
-  relay3.set_status(actions.relay1);
-  relay4.set_status(actions.relay1);
+  display.set(actions.display, actions.message);
+  buzzer.set(actions.buzzer);
+  octoprint_action.set(actions.octoprint);
+  relay1.set(actions.relay1);
+  relay2.set(actions.relay1);
+  relay3.set(actions.relay1);
+  relay4.set(actions.relay1);
 }
 
 void Controler::print_actions(const Actions actions) {

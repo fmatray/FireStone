@@ -63,7 +63,9 @@ void setup() {
   display.sensors_test("Octoprint", octoprint_test, "Connected", "Unreachable");
   if (octoprint_test)
     display.ocprint_version();
+
   /* ACTIONS SETUP */
+  octoprint_action.begin();
 
   /* CONTROLLER SETUP */
   controler.begin();
@@ -75,18 +77,18 @@ void setup() {
 
   settings.update();
   display.start();
-  Scheduler.startLoop(display_loop);
-  Scheduler.startLoop(controler_loop);
+  Scheduler.startLoop(loop2);
+  Scheduler.startLoop(loop1);
 #ifdef FS_DEBUG
   freememory();
 #endif
 }
 
 #ifdef FS_DEBUG
-unsigned long start = 0;
-unsigned long loop0 = 0;
-unsigned long loop1 = 0;
-unsigned long loop2 = 0;
+unsigned long start       = 0;
+unsigned long timer_loop0 = 0;
+unsigned long timer_loop1 = 0;
+unsigned long timer_loop2 = 0;
 #endif
 
 void loop() {
@@ -97,7 +99,7 @@ void loop() {
     freememory();
     freememory_lasttime = millis();
   }
-  loop0 = millis();
+  timer_loop0 = millis();
 #endif
 
   medor.clear();  // Restart Watchdog
@@ -108,47 +110,49 @@ void loop() {
   octoprint_sensor.run();
   delay(100);
 #ifdef FS_DEBUG
-  if (millis() - loop0 > 5000) {
+  if (millis() - timer_loop0 > 5000) {
     Serial.print("Loop0: ");
-    Serial.println(millis() - loop0);
+    Serial.println(millis() - timer_loop0);
   }
 #endif
 }
 
-void controler_loop() {
+void loop1() {
 #ifdef FS_DEBUG
-  loop1 = millis();
+  timer_loop1 = millis();
 #endif
   ambiant_sensor.run();
   emergency_sensor.run();
   fire_sensor.run();
+  
   /* Run Controler */
   controler.run();
 
   /* Run Actions */
-  buzzer.run();
+  octoprint_action.run();
   relay1.run();
   relay2.run();
   relay3.run();
   relay4.run();
 #ifdef FS_DEBUG
-  if (millis() - loop1 > 5000) {
+  if (millis() - timer_loop1 > 5000) {
     Serial.print("Loop1: ");
-    Serial.println(millis() - loop1);
+    Serial.println(millis() - timer_loop1);
   }
 #endif
   yield();
 }
 
-void display_loop() {
+void loop2() {
 #ifdef FS_DEBUG
-  loop2 = millis();
+  timer_loop2 = millis();
 #endif
+  buzzer.run();
   display.run();
 #ifdef FS_DEBUG
-  if (millis() - loop2 > 5000) {
+  if (millis() - timer_loop2 > 5000) {
     Serial.print("Loop2: ");
-    Serial.println(millis() - loop2);
+    Serial.println(millis() - timer_loop2);
   }
 #endif
   yield();
@@ -167,11 +171,11 @@ void shutdown() {
   Serial.print("Start:");
   Serial.println(millis() - start);
   Serial.print("Loop 0:");
-  Serial.println(millis() - loop0);
+  Serial.println(millis() - timer_loop0);
   Serial.print("Loop 1:");
-  Serial.println(millis() - loop1);
+  Serial.println(millis() - timer_loop1);
   Serial.print("Loop 2:");
-  Serial.println(millis() - loop2);
+  Serial.println(millis() - timer_loop2);
 
   freememory();
   while (1)
