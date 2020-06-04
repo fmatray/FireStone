@@ -1,10 +1,16 @@
 #include "controler/controler.h"
 
+#include "common/helpers.h"
 #include "controler/ambiant.h"
 #include "controler/emergency.h"
 #include "controler/fire.h"
 #include "controler/octoprint.h"
-#include "common/helpers.h"
+
+Actions action_reset = {off,       // display
+                          off, off,  // Buzzer, Octoprint
+                          off, off,  // Relay 1, 2,
+                          off, off,  // Relay 3,4
+                          ""};
 
 Controler::Controler(const uint8_t _reset_pin) { reset_pin = _reset_pin; }
 
@@ -24,11 +30,7 @@ void Controler::begin() {
 }
 
 void Controler::reset() {
-  actions = {OK,      // Global
-             OK, OK,  // Buzzer, Octoprint
-             OK, OK,  // Relay 1, 2,
-             OK, OK,  // Relay 3,4
-             ""};     // Message
+  actions = action_reset;
   ambiant_sensor.reset();
   fire_sensor.reset();
   emergency_sensor.reset();
@@ -40,7 +42,7 @@ void Controler::run() {
   static bool reset_last_state        = false;
   static bool reset_button_state      = false;
 
-  if (actions.global > OK) {
+  if (actions != action_reset) {
     if (debounce(&reset_lasttime, &reset_last_state, &reset_button_state,
                  digitalRead(reset_pin), RESET_INTERVAL) &&
         reset_button_state == true)
@@ -53,20 +55,30 @@ void Controler::run() {
   dispatch(actions);
 }
 
-void Controler::dispatch(const actions_t actions) {
-  display.set_status(actions.global, actions.message);
+void Controler::dispatch(const Actions actions) {
+  display.set_status(actions.display, actions.message);
   buzzer.set_status(actions.buzzer);
-  //octoprint_action.set(actions.global, actions.octoprint);
+  //octoprint_action.set(actions.octoprint);
   relay1.set_status(actions.relay1);
   relay2.set_status(actions.relay1);
   relay3.set_status(actions.relay1);
   relay4.set_status(actions.relay1);
 }
 
-void Controler::print_actions(const actions_t actions) {
+void Controler::print_actions(const Actions actions) {
   title("Actions");
-  Serial.print("Global:");
-  Serial.println(status_str(actions.global));
+  Serial.print("Display:");
+  Serial.println(action_str(actions.display));
+  Serial.print("Buzzer:");
+  Serial.println(action_str(actions.buzzer));
+  Serial.print("Relay1:");
+  Serial.println(action_str(actions.relay1));
+  Serial.print("Relay2:");
+  Serial.println(action_str(actions.relay2));
+  Serial.print("Relay3:");
+  Serial.println(action_str(actions.relay3));
+  Serial.print("Relay4:");
+  Serial.println(action_str(actions.relay4));
   Serial.print("Message:");
   Serial.println(actions.message);
 }

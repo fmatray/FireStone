@@ -2,30 +2,31 @@
 
 #include "common/global.h"
 
-bool OctoprintRule::proceed(actions_t &actions) {
+bool OctoprintRule::proceed(Actions &actions) {
   status_e status = octoprint_sensor.get_status();
 
   switch (status) {
     case ALERT:
-      actions.relay1 = ALERT;
-      actions.relay2 = ALERT;
-      actions.relay3 = ALERT;
-      actions.relay4 = ALERT;
+      actions = {alert,         // display
+                 alert, alert,  // Buzzer, Octoprint
+                 alert, alert,  // Relay 1, 2,
+                 alert, alert,  // Relay 3,4
+                 "Alert"};      // Message
+      break;
     case WARNING:
-      actions.buzzer = status;
+      actions = {warn,        // display
+                 warn, warn,  // Buzzer, Octoprint
+                 warn, warn,  // Relay 1, 2,
+                 warn, warn,  // Relay 3,4
+                 ""};         // Message
+      break;
     case ERROR:
-      actions.global  = octoprint_sensor.get_ext0_status();
-      actions.message = "Extruder 0";
-
-      if (octoprint_sensor.get_ext1_status() > actions.global) {
-        actions.global  = octoprint_sensor.get_ext1_status();
-        actions.message = "Extruder 1";
-      }
-      if (octoprint_sensor.get_bed_status() > actions.global) {
-        actions.global  = octoprint_sensor.get_bed_status();
-        actions.message = "Bed";
-      }
-      return true;
+      actions = {err,       // display
+                 err, err,  // Buzzer, Octoprint
+                 err, err,  // Relay 1, 2,
+                 err, err,  // Relay 3,4
+                 ""};       // Message
+      break;
     case OK:
     case IDLE:
     case OFF:
@@ -34,5 +35,13 @@ bool OctoprintRule::proceed(actions_t &actions) {
     default:
       Serial.println("Unkown status");
   }
-  return false;
+  status_e status_tmp = octoprint_sensor.get_ext0_status();
+  actions.message     = "Extruder 0";
+
+  if (octoprint_sensor.get_ext1_status() > status_tmp)
+    actions.message = "Extruder 1";
+  else if (octoprint_sensor.get_bed_status() > status_tmp)
+    actions.message = "Bed";
+
+  return true;
 }

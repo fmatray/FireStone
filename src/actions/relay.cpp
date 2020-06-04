@@ -15,7 +15,7 @@ void RelayAction::update(const relay_settings_t _settings) {
 }
 
 void RelayAction::run() {
-  if (status >= switch_status) {
+  if (action >= switch_status) {
     if (inverted)
       turn_on();
     else

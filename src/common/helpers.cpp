@@ -109,3 +109,16 @@ String status_str(status_e _status) {
   }
   return "UNKOWN STATUS";
 }
+String action_str(action_e _action) {
+  switch (_action) {
+    case off:
+      return "Off";
+    case err:
+      return "Error";
+    case warn:
+      return "Warning";
+    case alert:
+      return "Alert";
+  }
+  return "UNKOWN STATUS";
+}

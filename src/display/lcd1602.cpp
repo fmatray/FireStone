@@ -56,13 +56,13 @@ void LCD1602::run() {
       {2, &LCD1602::show_relays, true},
       {0, NULL, false}};
 
-  if (status == ERROR || status == WARNING || status == ALERT) {
+  if (action == err || action == warn || action == alert) {
     if (check_time(blink_lasttime, 1)) {
       brightness = brightness == 255 ? 0 : 255;
       lcd.setBacklight(brightness);
       blink_lasttime = millis();
     }
-    print2lines(status_str(status), message);
+    print2lines(action_str(action), message);
     return;
   }
   lcd.setBacklight(255);

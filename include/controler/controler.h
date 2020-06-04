@@ -13,14 +13,14 @@ class Controler {
   void begin();
   void reset();
   void run();
-  void dispatch(const actions_t actions);
+  void dispatch(const Actions actions);
 
   /* Helpers*/
-  void print_actions(const actions_t actions);
+  void print_actions(const Actions actions);
 
  private:
   Rule *rules[RULES_SIZE];
-  actions_t actions;
+  Actions actions;
   uint8_t reset_pin;
 };
 #endif

@@ -2,14 +2,14 @@
 
 #include "common/global.h"
 
-bool FireRule::proceed(actions_t &actions) {
+bool FireRule::proceed(Actions &actions) {
   if (fire_sensor.get_status() == ALERT) {
-    actions.global  = ALERT;
-    actions.buzzer  = ALERT;
-    actions.relay1  = ALERT;
-    actions.relay2  = ALERT;
-    actions.relay3  = ALERT;
-    actions.relay4  = ALERT;
+    actions.display = alert;
+    actions.buzzer  = alert;
+    actions.relay1  = alert;
+    actions.relay2  = alert;
+    actions.relay3  = alert;
+    actions.relay4  = alert;
     actions.message = "Fire";
     return true;
   }

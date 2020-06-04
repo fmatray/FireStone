@@ -2,13 +2,13 @@
 
 #include "common/global.h"
 
-bool AmbiantRule::proceed(actions_t &actions) {
+bool AmbiantRule::proceed(Actions &actions) {
   if (ambiant_sensor.get_status() == WARNING) {
-    actions.global = WARNING;
-    actions.relay1 = WARNING;
-    actions.relay2 = WARNING;
-    actions.relay3 = WARNING;
-    actions.relay4 = WARNING;
+    actions.display = warn;
+    actions.relay1  = warn;
+    actions.relay2  = warn;
+    actions.relay3  = warn;
+    actions.relay4  = warn;
 
     if (ambiant_sensor.get_temperature_status() == WARNING)
       actions.message = "Ambiant temperature";

@@ -2,6 +2,7 @@
 #define HELPERS_H
 #include <RTCZero.h>
 
+#include "actions/action.h"
 #include "common/global.h"
 #include "common/status.h"
 
@@ -36,4 +37,5 @@ bool debounce(unsigned long *lasttime, bool *last_state, bool *button_state, con
  * Status helpers
  */
 String status_str(status_e _status);
+String action_str(action_e _action);
 #endif

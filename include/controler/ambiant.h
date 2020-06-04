@@ -5,7 +5,7 @@
 class AmbiantRule : public Rule {
  public:
   void begin(){};
-  bool proceed(actions_t &actions);
+  bool proceed(Actions &actions);
 
  private:
 };

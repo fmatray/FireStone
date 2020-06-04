@@ -28,14 +28,14 @@ void BuzzerAction::run() {
   static unsigned long buzz_lastime = 0;
   static bool buzz_state            = false;
 
-  if (status == WARNING) {
+  if (action == warn) {
     if (check_time(buzz_lastime, 5)) {
       buzz_lastime = millis();
       buzz_state   = !buzz_state;
     }
     if (buzz_state)
       buzz();
-  } else if (status == ALERT)
+  } else if (action == alert)
     buzz();
   else {
     buzz_state = false;

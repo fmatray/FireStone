@@ -11,9 +11,9 @@
                                              VALUE("No", false, update_settings, Menu::updateEvent));
 
 #define RELAY_SWITCH_STATUS(setting, menu) TOGGLE(setting, menu, "Switch:", Menu::doNothing, Menu::noEvent, Menu::noStyle, \
-                                                  VALUE("Error", ERROR, update_settings, Menu::updateEvent),               \
-                                                  VALUE("Warning", WARNING, update_settings, Menu::updateEvent),           \
-                                                  VALUE("Alert", ALERT, update_settings, Menu::updateEvent));
+                                                  VALUE("Error", err, update_settings, Menu::updateEvent),                 \
+                                                  VALUE("Warning", warn, update_settings, Menu::updateEvent),              \
+                                                  VALUE("Alert", alert, update_settings, Menu::updateEvent));
 
 class Display : public Action {
  public:

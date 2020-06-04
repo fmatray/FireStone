@@ -2,13 +2,13 @@
 
 #include "common/global.h"
 
-bool EmergencyRule::proceed(actions_t &actions) {
+bool EmergencyRule::proceed(Actions &actions) {
   if (emergency_sensor.get_status() == ALERT) {
-    actions.global  = ALERT;
-    actions.relay1  = ALERT;
-    actions.relay2  = ALERT;
-    actions.relay3  = ALERT;
-    actions.relay4  = ALERT;
+    actions.display = alert;
+    actions.relay1  = alert;
+    actions.relay2  = alert;
+    actions.relay3  = alert;
+    actions.relay4  = alert;
     actions.message = "Emergency";
     return true;
   }
