@@ -1,8 +1,8 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
-#include "actions/relay.h"
-#include "sensors/ambiant.h"
-#include "sensors/octoprint.h"
+#include "IO/relay.h"
+#include "IO/ambiant.h"
+#include "IO/octoprint.h"
 #include "common/status.h"
 /* Data */
 

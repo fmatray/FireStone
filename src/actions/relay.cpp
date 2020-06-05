@@ -1,4 +1,4 @@
-#include "actions/relay.h"
+#include "IO/relay.h"
 
 #include <Arduino.h>
 

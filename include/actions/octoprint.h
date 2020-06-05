@@ -4,7 +4,7 @@
 #include <OctoPrintAPI.h>
 #include <WiFiNINA.h>
 
-#include "action.h"
+#include "IO/action.h"
 #include "common/octoprint.h"
 #include "config.h"
 

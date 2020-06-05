@@ -1,4 +1,4 @@
-#include "sensors/fire.h"
+#include "IO/fire.h"
 
 #include "common/helpers.h"
 

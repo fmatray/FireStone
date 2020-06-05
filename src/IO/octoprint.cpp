@@ -1,4 +1,4 @@
-#include "sensors/octoprint.h"
+#include "IO/octoprint.h"
 
 #include <OctoPrintAPI.h>
 #include <WiFiNINA.h>

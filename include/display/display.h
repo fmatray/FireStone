@@ -1,7 +1,7 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
 #include <Arduino.h>
-#include <actions/action.h>
+#include <IO/action.h>
 
 #define MENU_MAX_DEPTH 3
 #define MENU_TIMEOUT   10

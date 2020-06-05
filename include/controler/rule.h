@@ -2,7 +2,7 @@
 #define RULE_H
 #include <Arduino.h>
 
-#include "actions/action.h"
+#include "IO/action.h"
 #include "common/status.h"
 
 class Actions {

@@ -2,7 +2,7 @@
 #define HELPERS_H
 #include <RTCZero.h>
 
-#include "actions/action.h"
+#include "IO/action.h"
 #include "common/global.h"
 #include "common/status.h"
 

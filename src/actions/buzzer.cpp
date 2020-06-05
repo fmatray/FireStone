@@ -1,4 +1,4 @@
-#include "actions/buzzer.h"
+#include "IO/buzzer.h"
 
 #include <Arduino.h>
 

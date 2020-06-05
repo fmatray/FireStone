@@ -8,15 +8,15 @@
 #include "common/wificonnexion.h"
 
 /* SENSORS */
-#include "sensors/ambiant.h"
-#include "sensors/emergency.h"
-#include "sensors/fire.h"
-#include "sensors/octoprint.h"
+#include "IO/ambiant.h"
+#include "IO/emergency.h"
+#include "IO/fire.h"
+#include "IO/octoprint.h"
 
 /* Actions */
-#include "actions/buzzer.h"
+#include "IO/buzzer.h"
 #include "actions/octoprint.h"
-#include "actions/relay.h"
+#include "IO/relay.h"
 
 /* Display */
 #include "display/lcd1602.h"

@@ -1,4 +1,4 @@
-#include "sensors/ambiant.h"
+#include "IO/ambiant.h"
 
 #include <dhtnew.h>
 
