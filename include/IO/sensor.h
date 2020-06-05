@@ -4,11 +4,11 @@
 
 class Sensor {
  public:
-  virtual void begin();
-  virtual bool test();
+  virtual void begin() = 0;
+  virtual bool test()  = 0;
   void reset() { status = OK; };
-  virtual void run();
-  virtual bool read();
+  virtual void run()  = 0;
+  virtual bool read() = 0;
   virtual status_e check() { return NO_CHECK; }
   status_e get_status() { return status; };
 

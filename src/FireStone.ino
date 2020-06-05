@@ -47,25 +47,22 @@ void setup() {
   wificonnexion.begin();
   display.wifi_setup_done();
 
-  /* SENSORS SETUP */
-  display.sensors_setup();
+  /* IO SETUP */
+  display.IO_setup();
   ambiant_sensor.begin();
   ambiant_sensor.update(settings.ambiant_settings);
-  display.sensors_test("Ambient Sensor", ambiant_sensor.test());
+  display.IO_test("Ambient Sensor", ambiant_sensor.test());
 
   emergency_sensor.begin();
 
   fire_sensor.begin();
 
-  octoprint_sensor.begin();
-  octoprint_sensor.update(settings.octoprint_settings);
-  bool octoprint_test = octoprint_sensor.test();
-  display.sensors_test("Octoprint", octoprint_test, "Connected", "Unreachable");
+  octoprint.begin();
+  octoprint.update(settings.octoprint_settings);
+  bool octoprint_test = octoprint.test();
+  display.IO_test("Octoprint", octoprint_test, "Connected", "Unreachable");
   if (octoprint_test)
-    display.ocprint_version();
-
-  /* ACTIONS SETUP */
-  octoprint_action.begin();
+    display.octoprint_version();
 
   /* CONTROLLER SETUP */
   controler.begin();
@@ -107,7 +104,7 @@ void loop() {
   if (settings.has_changed())
     settings.update();
   wificonnexion.run();
-  octoprint_sensor.run();
+  octoprint.run_sensor();
   delay(100);
 #ifdef FS_DEBUG
   if (millis() - timer_loop0 > 5000) {
@@ -124,12 +121,12 @@ void loop1() {
   ambiant_sensor.run();
   emergency_sensor.run();
   fire_sensor.run();
-  
+
   /* Run Controler */
   controler.run();
 
   /* Run Actions */
-  octoprint_action.run();
+  octoprint.run_action();
   relay1.run();
   relay2.run();
   relay3.run();

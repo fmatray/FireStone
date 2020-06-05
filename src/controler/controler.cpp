@@ -34,8 +34,7 @@ void Controler::reset() {
   ambiant_sensor.reset();
   fire_sensor.reset();
   emergency_sensor.reset();
-  octoprint_sensor.reset();
-  octoprint_action.reset();
+  octoprint.reset();
 }
 
 void Controler::run() {
@@ -59,7 +58,7 @@ void Controler::run() {
 void Controler::dispatch(const Actions actions) {
   display.set(actions.display, actions.message);
   buzzer.set(actions.buzzer);
-  octoprint_action.set(actions.octoprint);
+  octoprint.set(actions.octoprint);
   relay1.set(actions.relay1);
   relay2.set(actions.relay1);
   relay3.set(actions.relay1);

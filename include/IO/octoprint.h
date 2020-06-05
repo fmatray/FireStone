@@ -1,12 +1,12 @@
-#ifndef OCTOPRINT_SENSOR_H
-#define OCTOPRINT_SENSOR_H
+#ifndef OCTOPRINT_H
+#define OCTOPRINT_H
 #include <Arduino.h>
 #include <OctoPrintAPI.h>
 #include <WiFiNINA.h>
 
-#include "common/octoprint.h"
+#include "IO/action.h"
+#include "IO/sensor.h"
 #include "config.h"
-#include "sensor.h"
 
 typedef struct {
   uint8_t interval;        // INTERVAL between requests
@@ -32,13 +32,16 @@ enum printer_status_e {
   unknow
 };
 
-class OctoPrintSensor : public OctoprintBase, public Sensor {
+class OctoPrint : public Sensor, public Action {
  public:
-  void begin() { OctoprintBase::begin(); };
+  void begin();
   void update(const octoprint_settings_t _settings);
+
   bool test() { return check_version() == OK; };
   void reset();
-  void run();
+  void run() {};
+  void run_sensor();
+  void run_action();
   bool read();
   status_e check();
 
@@ -84,7 +87,10 @@ class OctoPrintSensor : public OctoprintBase, public Sensor {
   status_e check_version();
   void read_job();
 
+  OctoprintApi *api;
+  WiFiClient client;
   uint8_t interval;
+  bool alert_sent = false;
 
   /* Version */
   String api_version;

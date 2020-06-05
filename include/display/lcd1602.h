@@ -16,9 +16,9 @@ class LCD1602 : public Display {
   void settings_setup_done();
   void wifi_setup();
   void wifi_setup_done();
-  void sensors_setup();
-  void sensors_test(String item, bool test, String ok = "OK", String ko = "KO");
-  void ocprint_version();
+  void IO_setup();
+  void IO_test(String item, bool test, String ok = "OK", String ko = "KO");
+  void octoprint_version();
   void watchdog_setup();
 
   /* Start */

@@ -24,9 +24,9 @@ class Display : public Action {
   virtual void settings_setup_done();
   virtual void wifi_setup();
   virtual void wifi_setup_done();
-  virtual void sensors_setup();
-  virtual void sensors_test(String item, bool test, String ok = "OK", String ko = "KO");
-  virtual void ocprint_version();
+  virtual void IO_setup();
+  virtual void IO_test(String item, bool test, String ok = "OK", String ko = "KO");
+  virtual void octoprint_version();
   virtual void watchdog_setup();
 
   /* Run */

@@ -15,7 +15,6 @@
 
 /* Actions */
 #include "IO/buzzer.h"
-#include "actions/octoprint.h"
 #include "IO/relay.h"
 
 /* Display */
@@ -27,15 +26,12 @@ extern RTCZero rtc;
 /* Communication */
 extern WifiConnexion wificonnexion;
 
-/* Sensors */
+/* IO */
 extern AmbiantSensor ambiant_sensor;
 extern EmergencySensor emergency_sensor;
 extern FireSensor fire_sensor;
-extern OctoPrintSensor octoprint_sensor;
-
-/*  Actions */
+extern OctoPrint octoprint;
 extern BuzzerAction buzzer;
-extern OctoPrintAction octoprint_action;
 extern RelayAction relay1;
 extern RelayAction relay2;
 extern RelayAction relay3;

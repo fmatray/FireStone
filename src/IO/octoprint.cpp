@@ -7,26 +7,34 @@
 #include "common/helpers.h"
 #include "config.h"
 
-void OctoPrintSensor::update(const octoprint_settings_t _settings) {
+void OctoPrint::begin() {
+  api = new OctoprintApi(client, OCTOPRINT_IP, OCTOPRINT_PORT, OCTOPRINT_APIKEY);
+#ifdef FS_DEBUG
+  api->_debug = true;
+#endif
+}
+
+void OctoPrint::update(const octoprint_settings_t _settings) {
   max_temp_ext0 = _settings.max_temp_ext0;
   max_temp_ext1 = _settings.max_temp_ext1;
   max_temp_bed  = _settings.max_temp_bed;
   interval      = _settings.interval;
 }
 
-void OctoPrintSensor::reset() {
+void OctoPrint::reset() {
   status      = OK;
   ext0_status = OK;
   ext1_status = OK;
   bed_status  = OK;
+  alert_sent  = false;
 }
 /*
     RUN
 */
 
-void OctoPrintSensor::run() {
+void OctoPrint::run_sensor() {
   static unsigned long printer_lasttime           = 0;
-  static unsigned long job_lasttime               = 10000;
+  static unsigned long job_lasttime               = 1000;
   static unsigned long octoprint_version_lasttime = 10000;
 
   if (WiFi.status() != WL_CONNECTED)
@@ -44,7 +52,7 @@ void OctoPrintSensor::run() {
   }
 }
 
-bool OctoPrintSensor::read() {
+bool OctoPrint::read() {
   DEBUG1("Start reading");
   octoprint_status    = not_connected;
   bool ret            = api->getPrinterStatistics();
@@ -123,7 +131,7 @@ bool OctoPrintSensor::read() {
 /*
    OCTOPRINT checks
 */
-status_e OctoPrintSensor::check() {
+status_e OctoPrint::check() {
   ext0_status = (max_temp_ext0 == NO_CHECK) ? NO_CHECK : OFF;
   ext1_status = (max_temp_ext1 == NO_CHECK) ? NO_CHECK : OFF;
   bed_status  = (max_temp_bed == NO_CHECK) ? NO_CHECK : OFF;
@@ -144,7 +152,7 @@ status_e OctoPrintSensor::check() {
   return max(max(ext0_status, ext1_status), bed_status);
 }
 
-status_e OctoPrintSensor::check_temperature(const char *item, const float temp, const float max_temp, const float target) {
+status_e OctoPrint::check_temperature(const char *item, const float temp, const float max_temp, const float target) {
   Serial.print(item);
   Serial.print(temp);
   Serial.print("°C/");
@@ -177,7 +185,7 @@ status_e OctoPrintSensor::check_temperature(const char *item, const float temp, 
   return OK;
 }
 
-status_e OctoPrintSensor::check_version() {
+status_e OctoPrint::check_version() {
   if (WiFi.status() != WL_CONNECTED)
     return ERROR;
   DEBUG1("Start check version");
@@ -197,7 +205,7 @@ status_e OctoPrintSensor::check_version() {
   return ERROR;
 }
 
-String OctoPrintSensor::get_printer_status_as_str() {
+String OctoPrint::get_printer_status_as_str() {
   switch (printer_status) {
     case closed:
       return "Closed";
@@ -221,10 +229,37 @@ String OctoPrintSensor::get_printer_status_as_str() {
   return "UNKOWN STATUS";
 }
 
-void OctoPrintSensor::read_job() {
+void OctoPrint::read_job() {
   DEBUG1("Start read job");
   bool ret = api->getPrintJob();
 
   completion = ret ? api->printJob.progressCompletion : 0;
   DEBUG1("End read job");
+}
+
+void OctoPrint::run_action() {
+  if (WiFi.status() != WL_CONNECTED)
+    return;
+  switch (action) {
+    case off:
+      break;
+    case err:
+      break;
+    case warn:
+      break;
+    case alert:
+      if (alert_sent)
+        return;
+      api->octoPrintJobCancel();             // Cancel current job
+      api->octoPrintSetTool0Temperature(0);  // start cooling
+      api->octoPrintSetTool1Temperature(0);
+      api->octoPrintSetBedTemperature(0);
+      api->octoPrintPrintHeadRelativeJog(0, 0, 50, 1000);  // fast head lifting
+      delay(2000);
+      api->octoPrintPrinterCommand("M112");  // Emergency STOP
+      alert_sent = true;
+      break;
+    default:
+      break;
+  }
 }

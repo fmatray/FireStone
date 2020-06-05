@@ -25,11 +25,11 @@ void LCD1602::wifi_setup_done() {
     print2lines("WIFI Setup KO", wificonnexion.get_ssid());
 }
 
-void LCD1602::sensors_setup() { print1line("Sensors Setup", 1, true); }
-void LCD1602::sensors_test(String item, bool test, String ok, String ko) { print2lines(item, test ? ok : ko, 1); }
-void LCD1602::ocprint_version() {
-  print2lines("Octoprint V" + octoprint_sensor.get_octoprint_version(),
-              "API V" + octoprint_sensor.get_api_version(), 1, true);
+void LCD1602::IO_setup() { print1line("IO Setup", 1, true); }
+void LCD1602::IO_test(String item, bool test, String ok, String ko) { print2lines(item, test ? ok : ko, 1); }
+void LCD1602::octoprint_version() {
+  print2lines("Octoprint V" + octoprint.get_octoprint_version(),
+              "API V" + octoprint.get_api_version(), 1, true);
 }
 
 void LCD1602::watchdog_setup() { print2lines("Watchdog Setup", "60s", 1, true); }
@@ -47,11 +47,11 @@ void LCD1602::run() {
     return;
   modes_s modes[] = {
       {2, &LCD1602::show_datetime, rtc.isConfigured()},
-      {2, &LCD1602::show_octoprint_status, !octoprint_sensor.is_printer_operational()},
-      {3, &LCD1602::show_printer_status, octoprint_sensor.is_octoprint_connected()},
-      {5, &LCD1602::show_ext0_temp, octoprint_sensor.is_ext0_available()},
-      {5, &LCD1602::show_ext1_temp, octoprint_sensor.is_ext1_available()},
-      {5, &LCD1602::show_bed_temp, octoprint_sensor.is_bed_available()},
+      {2, &LCD1602::show_octoprint_status, !octoprint.is_printer_operational()},
+      {3, &LCD1602::show_printer_status, octoprint.is_octoprint_connected()},
+      {5, &LCD1602::show_ext0_temp, octoprint.is_ext0_available()},
+      {5, &LCD1602::show_ext1_temp, octoprint.is_ext1_available()},
+      {5, &LCD1602::show_bed_temp, octoprint.is_bed_available()},
       {3, &LCD1602::show_ambiant, true},
       {2, &LCD1602::show_relays, true},
       {0, NULL, false}};
@@ -110,14 +110,14 @@ void LCD1602::show_relays() {
 }
 
 void LCD1602::show_octoprint_status() {
-  print2lines("Octoprint", octoprint_sensor.get_octoprint_status_as_str());
+  print2lines("Octoprint", octoprint.get_octoprint_status_as_str());
 }
 
 void LCD1602::show_printer_status() {
-  if (octoprint_sensor.is_printer_operational()) {
-    String line2 = octoprint_sensor.get_printer_status_as_str();
-    if (octoprint_sensor.is_working())
-      line2 += ":" + String(octoprint_sensor.get_completion()) + "%";
+  if (octoprint.is_printer_operational()) {
+    String line2 = octoprint.get_printer_status_as_str();
+    if (octoprint.is_working())
+      line2 += ":" + String(octoprint.get_completion()) + "%";
 
     print2lines("Printer", line2);
   } else
@@ -126,20 +126,20 @@ void LCD1602::show_printer_status() {
 
 void LCD1602::show_ext0_temp() {
   show_temp("E0",
-            octoprint_sensor.get_ext0_temp(), octoprint_sensor.get_ext0_target(), octoprint_sensor.get_ext0_offset(),
-            octoprint_sensor.get_ext0_status());
+            octoprint.get_ext0_temp(), octoprint.get_ext0_target(), octoprint.get_ext0_offset(),
+            octoprint.get_ext0_status());
 }
 
 void LCD1602::show_ext1_temp() {
   show_temp("E1",
-            octoprint_sensor.get_ext1_temp(), octoprint_sensor.get_ext1_target(), octoprint_sensor.get_ext1_offset(),
-            octoprint_sensor.get_ext1_status());
+            octoprint.get_ext1_temp(), octoprint.get_ext1_target(), octoprint.get_ext1_offset(),
+            octoprint.get_ext1_status());
 }
 
 void LCD1602::show_bed_temp() {
   show_temp("Bed",
-            octoprint_sensor.get_bed_temp(), octoprint_sensor.get_bed_target(), octoprint_sensor.get_bed_offset(),
-            octoprint_sensor.get_bed_status());
+            octoprint.get_bed_temp(), octoprint.get_bed_target(), octoprint.get_bed_offset(),
+            octoprint.get_bed_status());
 }
 
 void LCD1602::show_temp(const String item,

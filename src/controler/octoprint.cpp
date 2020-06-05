@@ -3,10 +3,10 @@
 #include "common/global.h"
 
 bool OctoprintRule::proceed(Actions &actions) {
-  status_e status = octoprint_sensor.get_status();
+  status_e status = octoprint.get_status();
 
-  if (!octoprint_sensor.is_octoprint_connected() ||
-      !octoprint_sensor.is_printer_operational())
+  if (!octoprint.is_octoprint_connected() ||
+      !octoprint.is_printer_operational())
     return false;
 
   switch (status) {
@@ -39,12 +39,12 @@ bool OctoprintRule::proceed(Actions &actions) {
     default:
       Serial.println("Unkown status");
   }
-  status_e status_tmp = octoprint_sensor.get_ext0_status();
+  status_e status_tmp = octoprint.get_ext0_status();
   actions.message     = "Extruder 0";
 
-  if (octoprint_sensor.get_ext1_status() > status_tmp)
+  if (octoprint.get_ext1_status() > status_tmp)
     actions.message = "Extruder 1";
-  else if (octoprint_sensor.get_bed_status() > status_tmp)
+  else if (octoprint.get_bed_status() > status_tmp)
     actions.message = "Bed";
 
   return true;

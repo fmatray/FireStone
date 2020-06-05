@@ -82,7 +82,7 @@ void Settings::load() {
 void Settings::update() {
   print();
   ambiant_sensor.update(ambiant_settings);
-  octoprint_sensor.update(octoprint_settings);
+  octoprint.update(octoprint_settings);
 
   relay1.update(relay1_settings);
   relay2.update(relay2_settings);
