@@ -4,8 +4,8 @@
 #include <LiquidCrystal_PCF8574.h>
 #include <Wire.h>
 
-#include "display.h"
 #include "common/status.h"
+#include "display.h"
 
 class LCD1602 : public Display {
  public:

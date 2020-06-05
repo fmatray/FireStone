@@ -43,8 +43,10 @@ void LCD1602::run() {
   static unsigned char mode_iter        = 0;
   static unsigned char brightness       = 255;
 
-  if (Display::menu())
+  if (Display::menu()) {
+    l1 = l2 = "";
     return;
+  }
   modes_s modes[] = {
       {2, &LCD1602::show_datetime, rtc.isConfigured()},
       {2, &LCD1602::show_octoprint_status, !octoprint.is_printer_operational()},
@@ -158,8 +160,6 @@ void LCD1602::settings_reloaded() { print2lines("Settings", "reloaded", 1); }
 void LCD1602::print1line(const String line1, short _delay, bool _clear) { print2lines(line1, "", _delay, _clear); }
 
 void LCD1602::print2lines(const String line1, const String line2, short _delay, bool _clear) {
-  static String l1, l2 = "";
-
   if (l1 != line1 || l2 != line2) {
     l1 = line1;
     l2 = line2;
