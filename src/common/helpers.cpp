@@ -113,6 +113,10 @@ String action_str(action_e _action) {
   switch (_action) {
     case off:
       return "Off";
+    case sleep:
+      return "Sleep";
+    case wakeup:
+      return "Wake up";
     case err:
       return "Error";
     case warn:

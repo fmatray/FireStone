@@ -243,6 +243,16 @@ void OctoPrint::run_action() {
   switch (action) {
     case off:
       break;
+    case sleep:
+      api->octoPrintSetTool0Temperature(0);  // start cooling
+      api->octoPrintSetTool1Temperature(0);
+      api->octoPrintSetBedTemperature(0);
+      api->octoPrintConnectionDisconnect();
+      delay(1000);
+      break;
+    case wakeup:
+      api->octoPrintConnectionAutoConnect();
+      break;
     case err:
       break;
     case warn:

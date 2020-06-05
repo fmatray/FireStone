@@ -6,6 +6,8 @@
 
 enum action_e {
   off,
+  sleep,
+  wakeup,
   err,
   warn,
   alert

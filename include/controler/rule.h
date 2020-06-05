@@ -11,11 +11,15 @@ class Actions {
     return display != a.display ||
            buzzer != a.buzzer ||
            octoprint != a.octoprint ||
-           relay1 != a.relay1 ||
-           relay2 != a.relay2 ||
-           relay3 != a.relay3 ||
-           relay4 != a.relay4 ||
-           message != a.message;
+           relay1 != a.relay1 || relay2 != a.relay2 ||
+           relay3 != a.relay3 || relay4 != a.relay4;
+  };
+  bool need_reset() {
+    return display >= err ||
+           buzzer >= err ||
+           octoprint >= err ||
+           relay1 >= err || relay2 >= err ||
+           relay3 >= err || relay4 >= err;
   };
   action_e display;
   action_e buzzer;

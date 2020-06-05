@@ -4,6 +4,24 @@
 
 #include "common/helpers.h"
 
+#define TURN_OFF  \
+  {               \
+    if (inverted) \
+      turn_on();  \
+    else          \
+      turn_off(); \
+    return;       \
+  }
+
+#define TURN_ON   \
+  {               \
+    if (inverted) \
+      turn_off(); \
+    else          \
+      turn_on();  \
+    return;       \
+  }
+
 RelayAction::RelayAction(uint8_t _pin) {
   pin = _pin;
   pinMode(pin, OUTPUT);
@@ -15,17 +33,13 @@ void RelayAction::update(const relay_settings_t _settings) {
 }
 
 void RelayAction::run() {
-  if (action >= switch_status) {
-    if (inverted)
-      turn_on();
-    else
-      turn_off();
-    return;
-  }
-  if (inverted)
-    turn_off();
-  else
-    turn_on();
+  if (action == sleep)
+    TURN_OFF;
+  if (action == wakeup)
+    TURN_ON;
+  if (action >= switch_status)
+    TURN_OFF;
+  TURN_ON;
 }
 
 bool RelayAction::get_state() { return state; }

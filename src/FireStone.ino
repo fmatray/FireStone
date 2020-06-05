@@ -74,8 +74,9 @@ void setup() {
 
   settings.update();
   display.start();
-  Scheduler.startLoop(loop2);
+  
   Scheduler.startLoop(loop1);
+  Scheduler.startLoop(loop2);
 #ifdef FS_DEBUG
   freememory();
 #endif

@@ -42,7 +42,7 @@ void Controler::run() {
   static bool reset_last_state        = false;
   static bool reset_button_state      = false;
 
-  if (actions != action_reset) {
+  if (actions.need_reset()) {
     if (debounce(&reset_lasttime, &reset_last_state, &reset_button_state,
                  digitalRead(reset_pin), RESET_INTERVAL) &&
         reset_button_state == true)
