@@ -1,8 +1,9 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
-#include "IO/relay.h"
 #include "IO/ambiant.h"
 #include "IO/octoprint.h"
+#include "IO/relay.h"
+#include "IO/timer.h"
 #include "common/status.h"
 /* Data */
 
@@ -12,7 +13,7 @@ class SettingsData {
   long calculate_checksum();
   /* Time */
   int8_t timezone_offset;  // TODO : use a TimeZone Library
-
+  timer_settings_t timer_settings;
   /* Ambiant */
   ambiant_settings_t ambiant_settings;
   /* Octoprint */

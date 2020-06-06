@@ -6,7 +6,8 @@
 #include "common/helpers.h"
 
 void SettingsData::populate(const SettingsData *obj) {
-  timezone_offset = obj->timezone_offset;
+  timezone_offset        = obj->timezone_offset;
+  timer_settings.timeout = obj->timer_settings.timeout;
   /* Ambiant */
   ambiant_settings.temp_ambient_offset  = obj->ambiant_settings.temp_ambient_offset;
   ambiant_settings.humid_ambient_offset = obj->ambiant_settings.humid_ambient_offset;
@@ -30,9 +31,11 @@ void SettingsData::populate(const SettingsData *obj) {
   Serial.println(checksum);
 }
 long SettingsData::calculate_checksum() {  // not a real checksum but enought to validate our datas
-  return (timezone_offset + (ambiant_settings.temp_ambient_offset + ambiant_settings.humid_ambient_offset) +
+  return (timezone_offset + timer_settings.timeout +
+          (ambiant_settings.temp_ambient_offset + ambiant_settings.humid_ambient_offset) +
           (ambiant_settings.min_temp_ambiant + ambiant_settings.max_temp_ambiant) +
-          (octoprint_settings.interval + octoprint_settings.max_temp_ext0 + octoprint_settings.max_temp_ext1 + octoprint_settings.max_temp_bed)) +
+          (octoprint_settings.interval +
+           octoprint_settings.max_temp_ext0 + octoprint_settings.max_temp_ext1 + octoprint_settings.max_temp_bed)) +
          1984;
 }
 
@@ -40,7 +43,8 @@ long SettingsData::calculate_checksum() {  // not a real checksum but enought to
 Settings::Settings() { reset(); }
 
 void Settings::reset() {
-  timezone_offset = +2;
+  timezone_offset        = +2;
+  timer_settings.timeout = 5;
   /* Ambiant */
   ambiant_settings.temp_ambient_offset  = 0;
   ambiant_settings.humid_ambient_offset = 0;
@@ -82,6 +86,7 @@ void Settings::load() {
 void Settings::update() {
   print();
   ambiant_sensor.update(ambiant_settings);
+  timer.update(timer_settings);
   octoprint.update(octoprint_settings);
 
   relay1.update(relay1_settings);
@@ -103,6 +108,9 @@ void Settings::print() {
   Serial.print("Timezone offset:");
   Serial.print(timezone_offset);
   Serial.println("h");
+  Serial.print("Timer timeout:");
+  Serial.print(timer_settings.timeout);
+  Serial.println("min");
 
   Serial.print("Temp ambient offset:");
   Serial.print(ambiant_settings.temp_ambient_offset);

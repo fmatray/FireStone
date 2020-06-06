@@ -234,6 +234,7 @@ void OctoPrint::read_job() {
   bool ret = api->getPrintJob();
 
   completion = ret ? api->printJob.progressCompletion : 0;
+  timer.clear();
   DEBUG1("End read job");
 }
 

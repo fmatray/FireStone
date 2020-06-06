@@ -63,7 +63,7 @@ void setup() {
   display.IO_test("Octoprint", octoprint_test, "Connected", "Unreachable");
   if (octoprint_test)
     display.octoprint_version();
-
+  timer.clear();
   /* CONTROLLER SETUP */
   controler.begin();
 
@@ -74,7 +74,7 @@ void setup() {
 
   settings.update();
   display.start();
-  
+
   Scheduler.startLoop(loop1);
   Scheduler.startLoop(loop2);
 #ifdef FS_DEBUG
@@ -122,7 +122,7 @@ void loop1() {
   ambiant_sensor.run();
   emergency_sensor.run();
   fire_sensor.run();
-
+  timer.run();
   /* Run Controler */
   controler.run();
 

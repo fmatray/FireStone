@@ -7,15 +7,14 @@
 /* Communication */
 #include "common/wificonnexion.h"
 
-/* SENSORS */
+/* IO */
 #include "IO/ambiant.h"
+#include "IO/buzzer.h"
 #include "IO/emergency.h"
 #include "IO/fire.h"
 #include "IO/octoprint.h"
-
-/* Actions */
-#include "IO/buzzer.h"
 #include "IO/relay.h"
+#include "IO/timer.h"
 
 /* Display */
 #include "display/lcd1602.h"
@@ -30,6 +29,7 @@ extern WifiConnexion wificonnexion;
 extern AmbiantSensor ambiant_sensor;
 extern EmergencySensor emergency_sensor;
 extern FireSensor fire_sensor;
+extern TimerSensor timer;
 extern OctoPrint octoprint;
 extern BuzzerAction buzzer;
 extern RelayAction relay1;

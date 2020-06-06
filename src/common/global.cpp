@@ -4,17 +4,14 @@
 #include "common/wificonnexion.h"
 #include "config.h"
 
-/* SENSORS */
+/* IO */
 #include "IO/ambiant.h"
+#include "IO/buzzer.h"
 #include "IO/emergency.h"
 #include "IO/fire.h"
 #include "IO/octoprint.h"
-
-/* ACTIONS */
-#include "IO/buzzer.h"
-#include "IO/octoprint.h"
 #include "IO/relay.h"
-
+#include "IO/timer.h"
 /* Clock */
 RTCZero rtc;
 
@@ -25,6 +22,7 @@ WifiConnexion wificonnexion(WIFI_SSID, WIFI_PASSWORD);
 AmbiantSensor ambiant_sensor(TEMP_HUMIDITY_PIN);
 EmergencySensor emergency_sensor(EMERGENCY_PIN);
 FireSensor fire_sensor(FIRE_PIN);
+TimerSensor timer;
 OctoPrint octoprint;
 BuzzerAction buzzer(BUZZER_PIN, BUZZER_ACTIVE);
 RelayAction relay1(RELAY1_PIN);

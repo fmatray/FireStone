@@ -56,6 +56,7 @@ result update_settings(eventMask event, navNode &nav, prompt &item) {
 result save_settings() {
   settings.save();
   display.settings_saved();
+  out.refresh();
   return proceed;
 }
 
@@ -63,6 +64,7 @@ result reset_settings() {
   settings.reset();
   settings.changed();
   display.settings_reset();
+  out.refresh();
   return proceed;
 }
 
@@ -70,6 +72,7 @@ result reload_settings() {
   settings.reset();
   settings.changed();
   display.settings_reloaded();
+  out.refresh();
   return proceed;
 }
 
@@ -119,6 +122,7 @@ MENU(relays_menu, "Relays", Menu::doNothing, Menu::noEvent, Menu::noStyle,
 
 MENU(advanced_menu, "Advanced", Menu::doNothing, Menu::noEvent, Menu::noStyle,
      FIELD(settings.timezone_offset, "Timezone", "h", -12, 12, 1, 0, update_settings, Menu::updateEvent, Menu::noStyle),
+     FIELD(settings.timer_settings.timeout, "Timeout", "min", 0, 120, 1, 0, update_settings, Menu::updateEvent, Menu::noStyle),
      OP("Reset settings", reset_settings, enterEvent),
      OP("Reload settings", reload_settings, enterEvent),
      EXIT("<Back"));
@@ -149,5 +153,7 @@ void Display::begin() {
 
 bool Display::menu() {
   nav.poll();
+  if (!nav.sleepTask)
+    timer.clear();
   return !nav.sleepTask;
 }
