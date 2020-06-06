@@ -66,7 +66,7 @@ void LCD1602::run() {
     }
     print2lines(action_str(action), message);
     return;
-  } else if (action == sleep) {
+  } else if (action == off || action == sleep) {
     lcd.setBacklight(0);
     lcd.clear();
     return;

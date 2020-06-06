@@ -6,8 +6,10 @@
 #include "common/helpers.h"
 
 void SettingsData::populate(const SettingsData *obj) {
-  timezone_offset        = obj->timezone_offset;
-  timer_settings.timeout = obj->timer_settings.timeout;
+  timezone_offset             = obj->timezone_offset;
+  timer_settings.idle_timeout = obj->timer_settings.idle_timeout;
+  timer_settings.off_timeout  = obj->timer_settings.off_timeout;
+
   /* Ambiant */
   ambiant_settings.temp_ambient_offset  = obj->ambiant_settings.temp_ambient_offset;
   ambiant_settings.humid_ambient_offset = obj->ambiant_settings.humid_ambient_offset;
@@ -31,7 +33,7 @@ void SettingsData::populate(const SettingsData *obj) {
   Serial.println(checksum);
 }
 long SettingsData::calculate_checksum() {  // not a real checksum but enought to validate our datas
-  return (timezone_offset + timer_settings.timeout +
+  return (timezone_offset + timer_settings.idle_timeout + timer_settings.off_timeout +
           (ambiant_settings.temp_ambient_offset + ambiant_settings.humid_ambient_offset) +
           (ambiant_settings.min_temp_ambiant + ambiant_settings.max_temp_ambiant) +
           (octoprint_settings.interval +
@@ -43,8 +45,9 @@ long SettingsData::calculate_checksum() {  // not a real checksum but enought to
 Settings::Settings() { reset(); }
 
 void Settings::reset() {
-  timezone_offset        = +2;
-  timer_settings.timeout = 5;
+  timezone_offset             = +2;
+  timer_settings.idle_timeout = 5;
+  timer_settings.off_timeout  = 10;
   /* Ambiant */
   ambiant_settings.temp_ambient_offset  = 0;
   ambiant_settings.humid_ambient_offset = 0;
@@ -108,8 +111,11 @@ void Settings::print() {
   Serial.print("Timezone offset:");
   Serial.print(timezone_offset);
   Serial.println("h");
-  Serial.print("Timer timeout:");
-  Serial.print(timer_settings.timeout);
+  Serial.print("Idle timeout:");
+  Serial.print(timer_settings.idle_timeout);
+  Serial.println("min");
+  Serial.print("Off timeout:");
+  Serial.print(timer_settings.off_timeout);
   Serial.println("min");
 
   Serial.print("Temp ambient offset:");

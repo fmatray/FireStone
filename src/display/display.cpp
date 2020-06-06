@@ -120,9 +120,12 @@ MENU(relays_menu, "Relays", Menu::doNothing, Menu::noEvent, Menu::noStyle,
      SUBMENU(relay4_menu),
      EXIT("<Back"));
 
+TIMEOUT_MENU(settings.timer_settings.idle_timeout, idle_timeout_menu, "Idle:");
+TIMEOUT_MENU(settings.timer_settings.off_timeout, off_timeout_menu, "Off:");
+
 MENU(advanced_menu, "Advanced", Menu::doNothing, Menu::noEvent, Menu::noStyle,
      FIELD(settings.timezone_offset, "Timezone", "h", -12, 12, 1, 0, update_settings, Menu::updateEvent, Menu::noStyle),
-     FIELD(settings.timer_settings.timeout, "Timeout", "min", 0, 120, 1, 0, update_settings, Menu::updateEvent, Menu::noStyle),
+     SUBMENU(idle_timeout_menu), SUBMENU(off_timeout_menu),
      OP("Reset settings", reset_settings, enterEvent),
      OP("Reload settings", reload_settings, enterEvent),
      EXIT("<Back"));

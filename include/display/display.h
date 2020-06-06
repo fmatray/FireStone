@@ -15,6 +15,15 @@
                                                   VALUE("Warning", warn, update_settings, Menu::updateEvent),              \
                                                   VALUE("Alert", alert, update_settings, Menu::updateEvent));
 
+#define TIMEOUT_MENU(setting, menu, title) TOGGLE(setting, menu, title, Menu::doNothing, Menu::noEvent, Menu::noStyle, \
+                                                  VALUE("Off", 0, update_settings, Menu::updateEvent),                 \
+                                                  VALUE("1", 1, update_settings, Menu::updateEvent),                   \
+                                                  VALUE("5", 5, update_settings, Menu::updateEvent),                   \
+                                                  VALUE("10", 10, update_settings, Menu::updateEvent),                 \
+                                                  VALUE("15", 15, update_settings, Menu::updateEvent),                 \
+                                                  VALUE("30", 30, update_settings, Menu::updateEvent),                 \
+                                                  VALUE("60", 60, update_settings, Menu::updateEvent));
+
 class Display : public Action {
  public:
   virtual void begin();

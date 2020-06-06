@@ -112,6 +112,8 @@ String status_str(status_e _status) {
 String action_str(action_e _action) {
   switch (_action) {
     case nothing:
+      return "Nothing";
+    case off:
       return "Off";
     case sleep:
       return "Sleep";

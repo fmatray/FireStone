@@ -38,7 +38,7 @@ void Dispatcher::print() {
 }
 
 void Dispatcher::reset_or_wakeup() {
-  if (this->is_sleeping()) {
+  if (this->is_off_or_sleeping()) {
     general = wakeup;
     dispatch();
   }

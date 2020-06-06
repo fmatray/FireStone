@@ -26,7 +26,7 @@ void OctoPrint::reset() {
   ext0_status = OK;
   ext1_status = OK;
   bed_status  = OK;
-  action_sent  = false;
+  action_sent = false;
 }
 /*
     RUN
@@ -239,44 +239,35 @@ void OctoPrint::read_job() {
 }
 
 void OctoPrint::run_action() {
-  if (WiFi.status() != WL_CONNECTED)
+  if (WiFi.status() != WL_CONNECTED || action_sent)
     return;
   switch (action) {
     case nothing:
-      break;
-    case sleep:
-      if (action_sent)
-        return;
-      api->octoPrintSetTool0Temperature(0);  // start cooling
-      api->octoPrintSetTool1Temperature(0);
-      api->octoPrintSetBedTemperature(0);
+      return;
+    case off:
+      api->octoPrintCoolDown();
       api->octoPrintConnectionDisconnect();
       delay(1000);
-      action_sent = true;
+      break;
+    case sleep:
+      api->octoPrintCoolDown();
       break;
     case wakeup:
-      if (action_sent)
-        return;
       api->octoPrintConnectionAutoConnect();
-      action_sent = true;
       break;
     case err:
-      break;
+      return;
     case warn:
-      break;
+      return;
     case alert:
-      if (action_sent)
-        return;
-      api->octoPrintJobCancel();             // Cancel current job
-      api->octoPrintSetTool0Temperature(0);  // start cooling
-      api->octoPrintSetTool1Temperature(0);
-      api->octoPrintSetBedTemperature(0);
+      api->octoPrintJobCancel();  // Cancel current job
+      api->octoPrintCoolDown();
       api->octoPrintPrintHeadRelativeJog(0, 0, 50, 1000);  // fast head lifting
       delay(2000);
       api->octoPrintPrinterCommand("M112");  // Emergency STOP
-      action_sent = true;
       break;
     default:
       break;
   }
+  action_sent = true;
 }
