@@ -66,8 +66,12 @@ void LCD1602::run() {
     }
     print2lines(action_str(action), message);
     return;
-  }
-  lcd.setBacklight(255);
+  } else if (action == sleep) {
+    lcd.setBacklight(0);
+    lcd.clear();
+    return;
+  } else
+    lcd.setBacklight(255);
 
   if (!check_time(display_lasttime, 1))
     return;

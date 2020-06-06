@@ -1,36 +1,7 @@
 #ifndef RULE_H
 #define RULE_H
 #include <Arduino.h>
-
-#include "IO/action.h"
-#include "common/status.h"
-
-class Actions {
- public:
-  bool operator!=(const Actions &a) {
-    return display != a.display ||
-           buzzer != a.buzzer ||
-           octoprint != a.octoprint ||
-           relay1 != a.relay1 || relay2 != a.relay2 ||
-           relay3 != a.relay3 || relay4 != a.relay4;
-  };
-  bool need_reset() {
-    return display >= err ||
-           buzzer >= err ||
-           octoprint >= err ||
-           relay1 >= err || relay2 >= err ||
-           relay3 >= err || relay4 >= err;
-  };
-  action_e display;
-  action_e buzzer;
-  action_e octoprint;
-  action_e relay1;
-  action_e relay2;
-  action_e relay3;
-  action_e relay4;
-
-  String message;
-};
+#include "controler/actions.h"
 
 class Rule {
  public:

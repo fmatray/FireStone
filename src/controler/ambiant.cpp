@@ -4,12 +4,12 @@
 
 bool AmbiantRule::proceed(Actions &actions) {
   if (ambiant_sensor.get_status() == WARNING) {
-    actions.display   = warn;
-    actions.octoprint = warn;
-    actions.relay1    = warn;
-    actions.relay2    = warn;
-    actions.relay3    = warn;
-    actions.relay4    = warn;
+    actions.display_act   = warn;
+    actions.octoprint_act = warn;
+    actions.relay1_act    = warn;
+    actions.relay2_act    = warn;
+    actions.relay3_act    = warn;
+    actions.relay4_act    = warn;
 
     if (ambiant_sensor.get_temperature_status() == WARNING)
       actions.message = "Ambiant temperature";

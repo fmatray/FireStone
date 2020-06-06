@@ -4,13 +4,13 @@
 
 bool EmergencyRule::proceed(Actions &actions) {
   if (emergency_sensor.get_status() == ALERT) {
-    actions.display   = alert;
-    actions.octoprint = alert;
-    actions.relay1    = alert;
-    actions.relay2    = alert;
-    actions.relay3    = alert;
-    actions.relay4    = alert;
-    actions.message   = "Emergency";
+    actions.display_act   = alert;
+    actions.octoprint_act = alert;
+    actions.relay1_act    = alert;
+    actions.relay2_act    = alert;
+    actions.relay3_act    = alert;
+    actions.relay4_act    = alert;
+    actions.message       = "Emergency";
     return true;
   }
   return false;

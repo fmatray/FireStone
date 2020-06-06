@@ -1,8 +1,9 @@
 #ifndef CONTROLER_H
 #define CONTROLER_H
 
-#include "rule.h"
+#include "actions.h"
 #include "common/status.h"
+#include "rule.h"
 
 #define RULES_SIZE     10
 #define RESET_INTERVAL 1000  // 2s debounce to avoid false manipulation
@@ -13,10 +14,6 @@ class Controler {
   void begin();
   void reset();
   void run();
-  void dispatch(const Actions actions);
-
-  /* Helpers*/
-  void print_actions(const Actions actions);
 
  private:
   Rule *rules[RULES_SIZE];
