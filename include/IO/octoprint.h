@@ -90,7 +90,7 @@ class OctoPrint : public Sensor, public Action {
   OctoprintApi *api;
   WiFiClient client;
   uint8_t interval;
-  bool alert_sent = false;
+  bool action_sent = false;
 
   /* Version */
   String api_version;

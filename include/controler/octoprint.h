@@ -5,7 +5,7 @@
 class OctoprintRule : public Rule {
  public:
   void begin(){};
-  bool proceed(Actions &actions);
+  bool proceed(Dispatcher &dispatcher);
 
  private:
 };

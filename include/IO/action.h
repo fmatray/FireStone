@@ -5,7 +5,7 @@
 #include "common/status.h"
 
 enum action_e {
-  off,
+  nothing,
   sleep,
   wakeup,
   err,
@@ -22,7 +22,7 @@ class Action {
   };
 
  protected:
-  action_e action = off;
+  action_e action = nothing;
   String message  = "";
 };
 

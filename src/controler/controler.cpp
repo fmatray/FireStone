@@ -26,7 +26,7 @@ void Controler::begin() {
 }
 
 void Controler::reset() {
-  actions.reset();
+  dispatcher.reset();
   ambiant_sensor.reset();
   fire_sensor.reset();
   emergency_sensor.reset();
@@ -38,15 +38,15 @@ void Controler::run() {
   static bool reset_last_state        = false;
   static bool reset_button_state      = false;
 
-  if (actions.need_reset()) {
+  if (dispatcher.need_reset()) {
     if (debounce(&reset_lasttime, &reset_last_state, &reset_button_state,
                  digitalRead(reset_pin), RESET_INTERVAL) &&
         reset_button_state == true)
       reset();
   } else
     for (unsigned int i = 0; i < RULES_SIZE && rules[i]; i++)
-      if (rules[i]->is_active() && rules[i]->proceed(actions))
+      if (rules[i]->is_active() && rules[i]->proceed(dispatcher))
         break;
 
-  actions.dispatch();
+  dispatcher.dispatch();
 }

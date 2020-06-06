@@ -1,8 +1,8 @@
 #ifndef CONTROLER_H
 #define CONTROLER_H
 
-#include "actions.h"
 #include "common/status.h"
+#include "dispatcher.h"
 #include "rule.h"
 
 #define RULES_SIZE     10
@@ -17,7 +17,7 @@ class Controler {
 
  private:
   Rule *rules[RULES_SIZE];
-  Actions actions;
+  Dispatcher dispatcher;
   uint8_t reset_pin;
 };
 #endif
