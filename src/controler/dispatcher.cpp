@@ -14,6 +14,11 @@ bool Dispatcher::need_reset() {
 }
 
 void Dispatcher::dispatch() {
+  if (last_general == general && last_buzz == buzz)
+    return;
+  last_general = general;
+  last_buzz    = buzz;
+
   display.set(general, message);
   buzzer.set(buzz);
   octoprint.set(general);
@@ -30,4 +35,12 @@ void Dispatcher::print() {
   Serial.print("Buzzer:");
   Serial.print("Message:");
   Serial.println(message);
+}
+
+void Dispatcher::reset_or_wakeup() {
+  if (this->is_sleeping()) {
+    general = wakeup;
+    dispatch();
+  }
+  reset();
 }

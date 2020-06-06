@@ -26,11 +26,12 @@ void Controler::begin() {
 }
 
 void Controler::reset() {
-  dispatcher.reset();
+  dispatcher.reset_or_wakeup();
   ambiant_sensor.reset();
   fire_sensor.reset();
   emergency_sensor.reset();
   octoprint.reset();
+  timer.clear();
 }
 
 void Controler::run() {

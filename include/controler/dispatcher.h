@@ -10,6 +10,9 @@ class Dispatcher {
   void dispatch();
   void print();
 
+  bool is_sleeping() { return general == sleep; };
+  void reset_or_wakeup();
+
   inline void set(const action_e _general, const action_e _buzz, const String _msg) {
     general = _general;
     buzz    = _buzz;
@@ -21,5 +24,8 @@ class Dispatcher {
   action_e general;
   action_e buzz;
   String message;
+
+  action_e last_general;
+  action_e last_buzz;
 };
 #endif
