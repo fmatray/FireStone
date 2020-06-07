@@ -4,7 +4,7 @@
 
 typedef struct {
   bool inverted;
-  action_e switch_status;
+  action_e switch_action;
 } relay_settings_t;
 
 class RelayAction : public Action {
@@ -21,7 +21,7 @@ class RelayAction : public Action {
   uint8_t pin;
   bool state;
   bool inverted;
-  action_e switch_status;
+  action_e switch_action;
 };
 
 #endif

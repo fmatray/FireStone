@@ -63,13 +63,13 @@ void Settings::reset() {
 
   /* Relays */
   relay1_settings.inverted      = false;
-  relay1_settings.switch_status = alert;
+  relay1_settings.switch_action = alert;
   relay2_settings.inverted      = false;
-  relay2_settings.switch_status = alert;
+  relay2_settings.switch_action = alert;
   relay3_settings.inverted      = false;
-  relay3_settings.switch_status = alert;
+  relay3_settings.switch_action = alert;
   relay4_settings.inverted      = false;
-  relay4_settings.switch_status = alert;
+  relay4_settings.switch_action = alert;
 
   _changed = false;
 }
@@ -150,17 +150,17 @@ void Settings::print() {
   Serial.print("Relay1:");
   Serial.print((relay1_settings.inverted ? "" : "not "));
   Serial.print("inverted ");
-  Serial.println("Switch on:" + action_str(relay1_settings.switch_status));
+  Serial.println("Switch on:" + action_str(relay1_settings.switch_action));
   Serial.print("Relay2:");
   Serial.print((relay2_settings.inverted ? "" : "not "));
   Serial.print("inverted ");
-  Serial.println("Switch on:" + action_str(relay1_settings.switch_status));
+  Serial.println("Switch on:" + action_str(relay1_settings.switch_action));
   Serial.print("Relay3:");
   Serial.print((relay2_settings.inverted ? "" : "not "));
   Serial.print("inverted ");
-  Serial.println("Switch on:" + action_str(relay1_settings.switch_status));
+  Serial.println("Switch on:" + action_str(relay1_settings.switch_action));
   Serial.print("Relay4:");
   Serial.print((relay2_settings.inverted ? "" : "not "));
   Serial.print("inverted ");
-  Serial.println("Switch on:" + action_str(relay1_settings.switch_status));
+  Serial.println("Switch on:" + action_str(relay1_settings.switch_action));
 }

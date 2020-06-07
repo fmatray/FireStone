@@ -29,7 +29,7 @@ RelayAction::RelayAction(uint8_t _pin) {
 
 void RelayAction::update(const relay_settings_t _settings) {
   inverted      = _settings.inverted;
-  switch_status = _settings.switch_status;
+  switch_action = _settings.switch_action;
 }
 
 void RelayAction::run() {
@@ -37,7 +37,7 @@ void RelayAction::run() {
     TURN_OFF;
   if (action == wakeup)
     TURN_ON;
-  if (action >= switch_status)
+  if (action >= switch_action)
     TURN_OFF;
   TURN_ON;
 }

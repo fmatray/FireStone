@@ -93,22 +93,22 @@ MENU(octoprint_menu, "Octoprint", Menu::doNothing, Menu::noEvent, Menu::noStyle,
      EXIT("<Back"));
 
 RELAY_INVERTED(settings.relay1_settings.inverted, relay1_inverted_menu);
-RELAY_SWITCH_STATUS(settings.relay1_settings.switch_status, relay1_switch_status_menu);
+RELAY_SWITCH_STATUS(settings.relay1_settings.switch_action, relay1_switch_status_menu);
 MENU(relay1_menu, "Relay 1", Menu::doNothing, Menu::noEvent, Menu::noStyle,
      SUBMENU(relay1_inverted_menu), SUBMENU(relay1_switch_status_menu),
      EXIT("<Back"));
 RELAY_INVERTED(settings.relay2_settings.inverted, relay2_inverted_menu);
-RELAY_SWITCH_STATUS(settings.relay2_settings.switch_status, relay2_switch_status_menu);
+RELAY_SWITCH_STATUS(settings.relay2_settings.switch_action, relay2_switch_status_menu);
 MENU(relay2_menu, "Relay 2", Menu::doNothing, Menu::noEvent, Menu::noStyle,
      SUBMENU(relay2_inverted_menu), SUBMENU(relay2_switch_status_menu),
      EXIT("<Back"));
 RELAY_INVERTED(settings.relay3_settings.inverted, relay3_inverted_menu);
-RELAY_SWITCH_STATUS(settings.relay3_settings.switch_status, relay3_switch_status_menu);
+RELAY_SWITCH_STATUS(settings.relay3_settings.switch_action, relay3_switch_status_menu);
 MENU(relay3_menu, "Relay 3", Menu::doNothing, Menu::noEvent, Menu::noStyle,
      SUBMENU(relay3_inverted_menu), SUBMENU(relay3_switch_status_menu),
      EXIT("<Back"));
 RELAY_INVERTED(settings.relay4_settings.inverted, relay4_inverted_menu);
-RELAY_SWITCH_STATUS(settings.relay4_settings.switch_status, relay4_switch_status_menu);
+RELAY_SWITCH_STATUS(settings.relay4_settings.switch_action, relay4_switch_status_menu);
 MENU(relay4_menu, "Relay 4", Menu::doNothing, Menu::noEvent, Menu::noStyle,
      SUBMENU(relay4_inverted_menu), SUBMENU(relay4_switch_status_menu),
      EXIT("<Back"));
