@@ -9,6 +9,7 @@ enum action_e {
   off,
   sleep,
   wakeup,
+  restore,  // TODO
   err,
   warn,
   alert

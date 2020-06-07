@@ -8,7 +8,6 @@
 #include "common/settings.h"
 #include "config.h"
 #include "controler/controler.h"
-
 /* Display */
 #if DISPLAY_TYPE == LCD1602
 #include "display/lcd1602.h"
@@ -20,6 +19,7 @@ LCD1602 display;
 WDTZero medor;  // Define WatchDog (medor is common name for a french dog)
 Settings settings;
 Controler controler(EMERGENCY_RESET_PIN);
+
 
 void setup() {
   display.begin();
@@ -104,6 +104,7 @@ void loop() {
 
   if (settings.has_changed())
     settings.update();
+  
   wificonnexion.run();
   octoprint.run_sensor();
   delay(100);

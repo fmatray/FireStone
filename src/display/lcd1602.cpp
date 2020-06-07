@@ -56,6 +56,7 @@ void LCD1602::run() {
       lcd.clear();
       return;
     case wakeup:
+    case restore:
       lcd.setBacklight(255);
       break;
     case err:

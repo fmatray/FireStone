@@ -1,5 +1,6 @@
 #ifndef WIFICONNEXION_H
 #define WIFICONNEXION_H
+#include <WiFiMDNSResponder.h>
 #include <WiFiNINA.h>
 
 #include "config.h"
@@ -38,6 +39,7 @@ class WifiConnexion {
   char localIP[IP_SIZE];
 
  private:
+  WiFiMDNSResponder mdns_responder;
   String ssid;
   String password;
   int8_t timezone_offset;

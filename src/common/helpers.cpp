@@ -119,6 +119,8 @@ String action_str(action_e _action) {
       return "Sleep";
     case wakeup:
       return "Wake up";
+    case restore:
+      return "Restore";
     case err:
       return "Error";
     case warn:

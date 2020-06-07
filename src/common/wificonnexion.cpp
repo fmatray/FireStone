@@ -30,6 +30,8 @@ void WifiConnexion::begin() {
     Serial.println("Please upgrade the firmware");
   }
   connect_delay();
+  if (!mdns_responder.begin(MDNS_NAME))
+    Serial.println("Failed to start MDNS responder!");
 }
 
 /*
@@ -37,9 +39,10 @@ void WifiConnexion::begin() {
 */
 
 void WifiConnexion::run() {
-  if (WiFi.status() == WL_CONNECTED)
+  if (WiFi.status() == WL_CONNECTED) {
     updateRTC();
-  else
+    mdns_responder.poll();
+  } else
     connect();
 }
 

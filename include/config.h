@@ -11,6 +11,8 @@
 //const char WIFI_PASSWORD[] = "";  // your network password
 //const char OCTOPRINT_APIKEY[] = ""; // Octoprint Key
 
+#define MDNS_NAME "firestone"
+
 /* Debug */
 #define FS_DEBUG
 
