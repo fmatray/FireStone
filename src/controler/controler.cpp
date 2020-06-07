@@ -27,6 +27,7 @@ void Controler::begin() {
 
 void Controler::reset() {
   dispatcher.reset_or_wakeup();
+  display.reset();
   ambiant_sensor.reset();
   fire_sensor.reset();
   emergency_sensor.reset();
@@ -44,10 +45,10 @@ void Controler::run() {
                  digitalRead(reset_pin), RESET_INTERVAL) &&
         reset_button_state == true)
       reset();
-  } else
-    for (unsigned int i = 0; i < RULES_SIZE && rules[i]; i++)
-      if (rules[i]->is_active() && rules[i]->proceed(dispatcher))
-        break;
+  }
+  for (unsigned int i = 0; i < RULES_SIZE && rules[i]; i++)
+    if (rules[i]->is_active() && rules[i]->proceed(dispatcher))
+      break;
 
   dispatcher.dispatch();
 }

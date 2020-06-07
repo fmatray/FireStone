@@ -24,6 +24,7 @@ class LCD1602 : public Display {
   /* Start */
   void start();
   void run();
+  void reset();
   void clear();
 
   /* Menu */

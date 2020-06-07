@@ -122,10 +122,12 @@ MENU(relays_menu, "Relays", Menu::doNothing, Menu::noEvent, Menu::noStyle,
 
 TIMEOUT_MENU(settings.timer_settings.idle_timeout, idle_timeout_menu, "Idle:");
 TIMEOUT_MENU(settings.timer_settings.off_timeout, off_timeout_menu, "Off:");
+const char *constMEM empty[] MEMMODE = {};
 
 MENU(advanced_menu, "Advanced", Menu::doNothing, Menu::noEvent, Menu::noStyle,
      FIELD(settings.timezone_offset, "Timezone", "h", -12, 12, 1, 0, update_settings, Menu::updateEvent, Menu::noStyle),
      SUBMENU(idle_timeout_menu), SUBMENU(off_timeout_menu),
+     EDIT("@", wificonnexion.localIP, empty, Menu::doNothing, Menu::noEvent, Menu::noStyle),
      OP("Reset settings", reset_settings, enterEvent),
      OP("Reload settings", reload_settings, enterEvent),
      EXIT("<Back"));
@@ -151,7 +153,8 @@ void Display::begin() {
 #endif
   nav.timeOut        = MENU_TIMEOUT;
   nav.useUpdateEvent = true;  // use UpdateEvent
-  nav.idleOn();               // start without menu
+  advanced_menu[3].disable();
+  nav.idleOn();  // start without menu
 }
 
 bool Display::menu() {

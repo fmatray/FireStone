@@ -10,7 +10,15 @@ void Dispatcher::reset() {
   message = "";
 }
 bool Dispatcher::need_reset() {
-  return general == sleep || general == warn || general == alert;
+  return general == off || general == sleep || general == warn || general == alert;
+}
+
+void Dispatcher::set(const action_e _general, const action_e _buzz, const String _msg) {
+  if (general >= _general && buzz >= _buzz)
+    return;
+  general = _general;
+  buzz    = _buzz;
+  message = _msg;
 }
 
 void Dispatcher::dispatch() {

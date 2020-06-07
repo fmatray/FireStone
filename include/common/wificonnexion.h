@@ -1,10 +1,11 @@
 #ifndef WIFICONNEXION_H
 #define WIFICONNEXION_H
 #include <WiFiNINA.h>
+
 #include "config.h"
 
 #define WIFI_TRIES 5
-
+#define IP_SIZE    16
 const struct
 {
   String quality;
@@ -33,6 +34,8 @@ class WifiConnexion {
   bool is_connected() { return WiFi.status() == WL_CONNECTED; };
   IPAddress get_ip() { return WiFi.localIP(); };
   String get_ip_as_string();
+
+  char localIP[IP_SIZE];
 
  private:
   String ssid;

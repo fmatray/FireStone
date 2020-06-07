@@ -41,6 +41,7 @@ class Display : public Action {
   /* Run */
   virtual void start();
   virtual void run();
+  virtual void reset();
 
   /* Menu */
   bool menu();

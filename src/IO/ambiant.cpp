@@ -57,10 +57,18 @@ bool AmbiantSensor::read() {
 }
 
 status_e AmbiantSensor::check() {
+  static uint8_t non_ok = 0;
+
   temperature_status = check_temperature();
   humidity_status    = check_humidity();
 
-  return max(temperature_status, humidity_status);
+  if (temperature_status > OK || humidity_status > OK)
+    non_ok++;
+  else
+    non_ok = 0;
+  if (non_ok > 3)
+    return max(temperature_status, humidity_status);
+  return OK;
 }
 
 status_e AmbiantSensor::check_temperature() {

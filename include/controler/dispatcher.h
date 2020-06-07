@@ -15,11 +15,7 @@ class Dispatcher {
   bool is_off_or_sleeping() { return is_off() || is_sleeping(); };
   void reset_or_wakeup();
 
-  inline void set(const action_e _general, const action_e _buzz, const String _msg) {
-    general = _general;
-    buzz    = _buzz;
-    message = _msg;
-  }
+  void set(const action_e _general, const action_e _buzz, const String _msg);
   inline void update_message(const String _msg) { message = _msg; };
 
  private:

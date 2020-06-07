@@ -66,8 +66,11 @@ void WifiConnexion::connect()  // TODO: ADD WPAEnterprise
     connexion_try++;
   else
     connexion_try = 1;
-  if (WiFi.status() == WL_CONNECTED)
+  if (WiFi.status() == WL_CONNECTED) {
+    IPAddress ip = WiFi.localIP();
+    snprintf(localIP, IP_SIZE, "%d.%d.%d.%d", ip[0], ip[1], ip[2], ip[3]);
     connexion_try = 0;
+  }
   printWifiStatus();
 }
 
@@ -81,6 +84,8 @@ void WifiConnexion::connect_delay() {
   WiFi.begin(ssid.c_str(), password.c_str());
   while (WiFi.status() != WL_CONNECTED && millis() - wifi_start < 10000)
     delay(10);
+  IPAddress ip = WiFi.localIP();
+  snprintf(localIP, IP_SIZE, "%d.%d.%d.%d", ip[0], ip[1], ip[2], ip[3]);
   printWifiStatus();
 }
 

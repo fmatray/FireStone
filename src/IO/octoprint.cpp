@@ -241,6 +241,10 @@ void OctoPrint::read_job() {
 void OctoPrint::run_action() {
   if (WiFi.status() != WL_CONNECTED || action_sent)
     return;
+  Serial.print("Octoprint action:");
+  Serial.println(action_str(action));
+  action_sent = true;
+  return;  // TO REMOVE AFTER DEBUGGING
   switch (action) {
     case nothing:
       return;

@@ -47,6 +47,29 @@ void LCD1602::run() {
     l1 = l2 = "";
     return;
   }
+  switch (action) {
+    case nothing:
+      break;
+    case off:
+    case sleep:
+      lcd.setBacklight(0);
+      lcd.clear();
+      return;
+    case wakeup:
+      lcd.setBacklight(255);
+      break;
+    case err:
+    case warn:
+    case alert:
+      if (check_time(blink_lasttime, 1)) {
+        brightness = brightness == 255 ? 0 : 255;
+        lcd.setBacklight(brightness);
+        blink_lasttime = millis();
+      }
+      print2lines(action_str(action), message);
+      return;
+  }
+
   modes_s modes[] = {
       {2, &LCD1602::show_datetime, rtc.isConfigured()},
       {2, &LCD1602::show_octoprint_status, !octoprint.is_printer_operational()},
@@ -57,21 +80,6 @@ void LCD1602::run() {
       {3, &LCD1602::show_ambiant, true},
       {2, &LCD1602::show_relays, true},
       {0, NULL, false}};
-
-  if (action == err || action == warn || action == alert) {
-    if (check_time(blink_lasttime, 1)) {
-      brightness = brightness == 255 ? 0 : 255;
-      lcd.setBacklight(brightness);
-      blink_lasttime = millis();
-    }
-    print2lines(action_str(action), message);
-    return;
-  } else if (action == off || action == sleep) {
-    lcd.setBacklight(0);
-    lcd.clear();
-    return;
-  } else
-    lcd.setBacklight(255);
 
   if (!check_time(display_lasttime, 1))
     return;
@@ -87,6 +95,10 @@ void LCD1602::run() {
   }
 }
 
+void LCD1602::reset() {
+  lcd.setBacklight(255);
+  clear();
+}
 void LCD1602::clear() { lcd.clear(); }
 
 void LCD1602::show_datetime() { print2lines("    " + rtc_date(), "    " + rtc_time()); }
