@@ -17,6 +17,7 @@ void LCD1602::settings_setup() { print2lines("Loading", "configuration", 1, true
 void LCD1602::settings_setup_done() { print2lines("Configuration", "loaded", 1, true); };
 
 void LCD1602::wifi_setup() { print2lines("WIFI Setup", wificonnexion.get_ssid()); }
+void LCD1602::wifi_update_fw() { print2lines("Please Update", "the Wifi driver", 5); };
 void LCD1602::wifi_setup_done() {
   if (wificonnexion.is_connected()) {
     print2lines("WIFI Setup OK", wificonnexion.get_ip_as_string(), 1, true);

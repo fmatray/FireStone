@@ -43,8 +43,10 @@ void Controler::run() {
   if (dispatcher.need_reset()) {
     if (debounce(&reset_lasttime, &reset_last_state, &reset_button_state,
                  digitalRead(reset_pin), RESET_INTERVAL) &&
-        reset_button_state == true)
+        reset_button_state == true) {
       reset();
+      return;
+    }
   }
   for (unsigned int i = 0; i < RULES_SIZE && rules[i]; i++)
     if (rules[i]->is_active() && rules[i]->proceed(dispatcher))

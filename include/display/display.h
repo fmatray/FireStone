@@ -32,6 +32,7 @@ class Display : public Action {
   virtual void settings_setup();
   virtual void settings_setup_done();
   virtual void wifi_setup();
+  virtual void wifi_update_fw();
   virtual void wifi_setup_done();
   virtual void IO_setup();
   virtual void IO_test(String item, bool test, String ok = "OK", String ko = "KO");

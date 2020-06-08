@@ -28,6 +28,9 @@ void WifiConnexion::begin() {
   String fv = WiFi.firmwareVersion();
   if (fv < WIFI_FIRMWARE_LATEST_VERSION) {
     Serial.println("Please upgrade the firmware");
+    Serial.print("Current version:");
+    Serial.println(fv);
+    display.wifi_update_fw();
   }
   connect_delay();
   if (!mdns_responder.begin(MDNS_NAME))

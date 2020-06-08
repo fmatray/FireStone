@@ -15,6 +15,7 @@ class LCD1602 : public Display {
   void settings_setup();
   void settings_setup_done();
   void wifi_setup();
+  void wifi_update_fw();
   void wifi_setup_done();
   void IO_setup();
   void IO_test(String item, bool test, String ok = "OK", String ko = "KO");
