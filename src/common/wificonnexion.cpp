@@ -41,12 +41,16 @@ void WifiConnexion::begin() {
    RUN
 */
 
-void WifiConnexion::run() {
+bool WifiConnexion::run() {
   if (WiFi.status() == WL_CONNECTED) {
+    connected = true;
     updateRTC();
     mdns_responder.poll();
-  } else
-    connect();
+    return true;
+  }
+  connected = false;
+  connect();
+  return is_connected();
 }
 
 void WifiConnexion::connect()  // TODO: ADD WPAEnterprise
@@ -73,6 +77,7 @@ void WifiConnexion::connect()  // TODO: ADD WPAEnterprise
   else
     connexion_try = 1;
   if (WiFi.status() == WL_CONNECTED) {
+    connected    = true;
     IPAddress ip = WiFi.localIP();
     snprintf(localIP, IP_SIZE, "%d.%d.%d.%d", ip[0], ip[1], ip[2], ip[3]);
     connexion_try = 0;
@@ -90,13 +95,16 @@ void WifiConnexion::connect_delay() {
   WiFi.begin(ssid.c_str(), password.c_str());
   while (WiFi.status() != WL_CONNECTED && millis() - wifi_start < 10000)
     delay(10);
-  IPAddress ip = WiFi.localIP();
-  snprintf(localIP, IP_SIZE, "%d.%d.%d.%d", ip[0], ip[1], ip[2], ip[3]);
+  if (WiFi.status() == WL_CONNECTED) {
+    connected    = true;
+    IPAddress ip = WiFi.localIP();
+    snprintf(localIP, IP_SIZE, "%d.%d.%d.%d", ip[0], ip[1], ip[2], ip[3]);
+  }
   printWifiStatus();
 }
 
 void WifiConnexion::printWifiStatus() {
-  if (WiFi.status() == WL_CONNECTED) {
+  if (connected) {
     Serial.println("Connected to wifi");
     // print the SSID of the network you're attached to:
     Serial.print("SSID: ");

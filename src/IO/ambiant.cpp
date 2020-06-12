@@ -77,19 +77,19 @@ status_e AmbiantSensor::check_temperature() {
   Serial.print("°C");
 
   if (temperature < 0) {
-    Serial.println("(ERROR)");
+    Serial.println(" (ERROR)");
     return ERROR;
   }
 
   if (min_temp_ambiant != NO_CHECK && temperature < min_temp_ambiant) {
-    Serial.println("(WARNING)");
+    Serial.println(" (WARNING)");
     return WARNING;
   }
   if (max_temp_ambiant != NO_CHECK && temperature > max_temp_ambiant) {
-    Serial.println("(WARNING)");
+    Serial.println(" (WARNING)");
     return WARNING;
   }
-  Serial.println("(OK)");
+  Serial.println(" (OK)");
   return OK;
 }
 
@@ -99,14 +99,14 @@ status_e AmbiantSensor::check_humidity() {
   Serial.print("%");
 
   if (humidity < 0) {
-    Serial.println("(ERROR)");
+    Serial.println(" (ERROR)");
     return ERROR;
   }
 
   if (max_humid_ambiant != NO_CHECK && humidity > max_humid_ambiant) {
-    Serial.println("(WARNING)");
+    Serial.println(" (WARNING)");
     return WARNING;
   }
-  Serial.println("(OK)");
+  Serial.println(" (OK)");
   return OK;
 }

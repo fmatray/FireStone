@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <RTCZero.h>
 
+#include "common/mqtt.h"
 #include "common/wificonnexion.h"
 #include "config.h"
 
@@ -17,7 +18,7 @@ RTCZero rtc;
 
 /* Communication */
 WifiConnexion wificonnexion(WIFI_SSID, WIFI_PASSWORD);
-
+MQTT mqtt;
 /* IO */
 AmbiantSensor ambiant_sensor(TEMP_HUMIDITY_PIN);
 EmergencySensor emergency_sensor(EMERGENCY_PIN);

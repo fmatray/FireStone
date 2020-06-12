@@ -24,7 +24,7 @@ class WifiConnexion {
   WifiConnexion(const char *_ssid, const char *password);
   void begin();
   void update(uint8_t _timezone_offset) { timezone_offset = _timezone_offset; };
-  void run();
+  bool run();
   void connect();
   void connect_delay();
   void printWifiStatus();
@@ -32,7 +32,7 @@ class WifiConnexion {
   String quality();
 
   String get_ssid() { return ssid; }
-  bool is_connected() { return WiFi.status() == WL_CONNECTED; };
+  bool is_connected() { return connected; };
   IPAddress get_ip() { return WiFi.localIP(); };
   String get_ip_as_string();
 
@@ -43,5 +43,6 @@ class WifiConnexion {
   String ssid;
   String password;
   int8_t timezone_offset;
+  bool connected;
 };
 #endif

@@ -37,8 +37,6 @@ void OctoPrint::run_sensor() {
   static unsigned long job_lasttime               = 1000;
   static unsigned long octoprint_version_lasttime = 10000;
 
-  if (WiFi.status() != WL_CONNECTED)
-    return;
   if (check_time(printer_lasttime, interval)) {  //Check if time has expired to go check OctoPrint Status
     if (read())
       status = check();
@@ -186,7 +184,7 @@ status_e OctoPrint::check_temperature(const char *item, const float temp, const 
 }
 
 status_e OctoPrint::check_version() {
-  if (WiFi.status() != WL_CONNECTED)
+  if (!wificonnexion.is_connected())
     return ERROR;
   DEBUG1("Start check version");
   if (api->getOctoprintVersion()) {
@@ -239,7 +237,7 @@ void OctoPrint::read_job() {
 }
 
 void OctoPrint::run_action() {
-  if (WiFi.status() != WL_CONNECTED || action_sent)
+  if (!wificonnexion.is_connected() || action_sent)
     return;
   Serial.print("Octoprint action:");
   Serial.println(action_str(action));

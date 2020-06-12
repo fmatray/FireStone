@@ -5,6 +5,7 @@
 #include <WDTZero.h>
 
 /* Communication */
+#include "common/mqtt.h"
 #include "common/wificonnexion.h"
 
 /* IO */
@@ -24,6 +25,7 @@ extern RTCZero rtc;
 
 /* Communication */
 extern WifiConnexion wificonnexion;
+extern MQTT mqtt;
 
 /* IO */
 extern AmbiantSensor ambiant_sensor;

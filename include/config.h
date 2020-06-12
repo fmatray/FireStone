@@ -10,11 +10,17 @@
 //const char WIFI_SSID[] = "";   // your network SSID (name)
 //const char WIFI_PASSWORD[] = "";  // your network password
 //const char OCTOPRINT_APIKEY[] = ""; // Octoprint Key
+//const char MQTT_USER[] = "";
+//const char MQTT_PASSWORD[] = "";
 
 #define MDNS_NAME "firestone"
 
 /* Debug */
 #define FS_DEBUG
+
+/* MQTT */
+#define MQTT_HOST "192.168.1.110"  // Mosquitto server
+#define MQTT_PORT 1883             // Mosquitto port
 
 /* AMBIANT SENSOR */
 #define TEMP_HUMIDITY_PIN 0  // DHT11 or DHT22 pin

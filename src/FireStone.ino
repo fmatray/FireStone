@@ -20,7 +20,6 @@ WDTZero medor;  // Define WatchDog (medor is common name for a french dog)
 Settings settings;
 Controler controler(EMERGENCY_RESET_PIN);
 
-
 void setup() {
   display.begin();
   display.clear();
@@ -73,6 +72,7 @@ void setup() {
   medor.setup(WDT_SOFTCYCLE1M);
 
   settings.update();
+  mqtt.begin();
   display.start();
 
   Scheduler.startLoop(loop1);
@@ -102,12 +102,11 @@ void loop() {
 
   medor.clear();  // Restart Watchdog
 
-  if (settings.has_changed())
-    settings.update();
-  
   wificonnexion.run();
-  octoprint.run_sensor();
-  delay(100);
+  //octoprint.run_sensor();
+  mqtt.run();
+
+  delay(20);
 #ifdef FS_DEBUG
   if (millis() - timer_loop0 > 5000) {
     Serial.print("Loop0: ");
@@ -124,6 +123,7 @@ void loop1() {
   emergency_sensor.run();
   fire_sensor.run();
   timer.run();
+
   /* Run Controler */
   controler.run();
 
@@ -146,6 +146,8 @@ void loop2() {
 #ifdef FS_DEBUG
   timer_loop2 = millis();
 #endif
+  if (settings.has_changed())
+    settings.update();
   buzzer.run();
   display.run();
 #ifdef FS_DEBUG
