@@ -6,7 +6,7 @@
 #include "common/settings.h"
 #include "config.h"
 
-#if DISPLAY_TYPE == LCD1602
+#if DISPLAY_TYPE == 1602 || DISPLAY_TYPE == 2004
 #include <LiquidCrystal_PCF8574.h>
 #include <menuIO/PCF8574Out.h>  //arduino I2C LCD
 #endif
@@ -40,7 +40,7 @@ MENU_INPUTS(in, &key_buttons);
 #endif
 
 // OUTPUTS
-#if DISPLAY_TYPE == LCD1602
+#if DISPLAY_TYPE == 1602 || DISPLAY_TYPE == 2004
 MENU_OUTPUTS(out, MENU_MAX_DEPTH, LCD_OUT(lcd, {0, 0, NB_COL, NB_LINE}), NONE);
 #else
 MENU_OUTPUTS(out, MENU_MAX_DEPTH, SERIAL_OUT(Serial), NONE);

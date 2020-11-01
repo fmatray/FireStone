@@ -2,16 +2,17 @@
 #include <Scheduler.h>
 #include <WDTZero.h>
 
+#include "config.h"
 #include "common/debug.h"
 #include "common/global.h"
 #include "common/helpers.h"
 #include "common/settings.h"
-#include "config.h"
 #include "controler/controler.h"
 /* Display */
-#if DISPLAY_TYPE == LCD1602
-#include "display/lcd1602.h"
+#if DISPLAY_TYPE == 1602
 LCD1602 display;
+#elif DISPLAY_TYPE == 2004
+LCD2004 display;
 #else
 #error "NO DISPLAY DEFINED"
 #endif
@@ -24,6 +25,7 @@ void setup() {
   display.begin();
   display.clear();
 
+  /* SERIAL FOR DEBUG */
 #ifdef FS_DEBUG
   unsigned long wait_serial = millis();
   pinMode(LED_BUILTIN, OUTPUT);
@@ -31,16 +33,15 @@ void setup() {
   while (!Serial && millis() - wait_serial < 10000)
     blink(LED_BUILTIN);
 #endif
-  /* COMMUNICATION SETUP */
+  /* WELCOME */
   display.welcome();
 
-  display.settings_setup();
-  settings.begin();
+  /* LOAD SETTINGS */
+  display.settings_setup(settings.begin());
   settings.print();
-  display.settings_setup_done();
-
+  
+  /* RTC + WIFI Setup */
   rtc.begin();  // Clock setup
-
   display.wifi_setup();
   wificonnexion.update(settings.timezone_offset);
   wificonnexion.begin();
@@ -53,28 +54,30 @@ void setup() {
   display.IO_test("Ambient Sensor", ambiant_sensor.test());
 
   emergency_sensor.begin();
-
   fire_sensor.begin();
 
+  /* Octoprint SETUP */
+  display.octoprint_setup();
   octoprint.begin();
   octoprint.update(settings.octoprint_settings);
-  bool octoprint_test = octoprint.test();
-  display.IO_test("Octoprint", octoprint_test, "Connected", "Unreachable");
-  if (octoprint_test)
-    display.octoprint_version();
-  timer.clear();
+  display.octoprint_setup_done(octoprint.test());
+
   /* CONTROLLER SETUP */
   controler.begin();
+
+  /* MQTT SETUP */
+  display.mqtt_setup();
+  mqtt.begin();
+  display.mqtt_setup_done(mqtt.connected());
 
   /* WatchDog SETUP */
   display.watchdog_setup();
   medor.attachShutdown(shutdown);
   medor.setup(WDT_SOFTCYCLE1M);
 
-  settings.update();
-  mqtt.begin();
+  /* Start loops */
+  timer.clear();
   display.start();
-
   Scheduler.startLoop(loop1);
   Scheduler.startLoop(loop2);
 #ifdef FS_DEBUG
@@ -103,9 +106,10 @@ void loop() {
   medor.clear();  // Restart Watchdog
 
   wificonnexion.run();
-  //octoprint.run_sensor();
-  mqtt.run();
-
+  if (wificonnexion.is_connected()) {
+    octoprint.run_sensor();
+    mqtt.run();
+  }
   delay(20);
 #ifdef FS_DEBUG
   if (millis() - timer_loop0 > 5000) {

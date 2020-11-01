@@ -28,27 +28,30 @@ class Display : public Action {
  public:
   virtual void begin();
   /* Setup */
-  virtual void welcome();
-  virtual void settings_setup();
-  virtual void settings_setup_done();
-  virtual void wifi_setup();
-  virtual void wifi_update_fw();
-  virtual void wifi_setup_done();
-  virtual void IO_setup();
-  virtual void IO_test(String item, bool test, String ok = "OK", String ko = "KO");
-  virtual void octoprint_version();
-  virtual void watchdog_setup();
+  virtual void welcome()                                                           = 0;
+  virtual void settings_setup(bool success)                                        = 0;
+  virtual void wifi_setup()                                                        = 0;
+  virtual void wifi_update_fw()                                                    = 0;
+  virtual void wifi_setup_done()                                                   = 0;
+  virtual void IO_setup()                                                          = 0;
+  virtual void IO_test(String item, bool test, String ok = "OK", String ko = "KO") = 0;
+  virtual void octoprint_setup()                                                   = 0;
+  virtual void octoprint_setup_done(bool success)                                  = 0;
+  virtual void octoprint_version()                                                 = 0;
+  virtual void watchdog_setup()                                                    = 0;
+  virtual void mqtt_setup()                                                        = 0;
+  virtual void mqtt_setup_done(bool success)                                       = 0;
 
   /* Run */
-  virtual void start();
-  virtual void run();
-  virtual void reset();
+  virtual void start() = 0;
+  virtual void run()   = 0;
+  virtual void reset() = 0;
 
   /* Menu */
   bool menu();
-  virtual void settings_saved();
-  virtual void settings_reset();
-  virtual void settings_reloaded();
+  virtual void settings_saved()    = 0;
+  virtual void settings_reset()    = 0;
+  virtual void settings_reloaded() = 0;
 
   virtual void clear();
   /* Shutdown */

@@ -30,8 +30,8 @@ class Settings : public SettingsData {
  public:
   Settings();
   void reset();
-  void begin();
-  void load();
+  bool begin();
+  bool load();
   void update();
   void save();
   void print();

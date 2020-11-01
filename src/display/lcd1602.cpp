@@ -1,20 +1,17 @@
 #include "common/global.h"
 #include "common/helpers.h"
 #include "config.h"
-
-LiquidCrystal_PCF8574 lcd(LCD_ADDRESS);
-
-void LCD1602::begin() {
-  lcd.begin(NB_COL, NB_LINE);
-  lcd.clear();
-  lcd.setBacklight(255);
-  Display::begin();
-}
+#include "display/lcd1602.h"
 
 void LCD1602::welcome() { print2lines("Welcome", "to FireStone", 1, true); }
 
-void LCD1602::settings_setup() { print2lines("Loading", "configuration", 1, true); };
-void LCD1602::settings_setup_done() { print2lines("Configuration", "loaded", 1, true); };
+void LCD1602::settings_setup(bool success) {
+  if (success) {
+    print2lines("Configuration", "loaded", 1, true);
+  } else {
+    print2lines("Default conf.", "loaded", 1, true);
+  }
+};
 
 void LCD1602::wifi_setup() { print2lines("WIFI Setup", wificonnexion.get_ssid()); }
 void LCD1602::wifi_update_fw() { print2lines("Please Update", "the Wifi driver", 5); };
@@ -28,12 +25,28 @@ void LCD1602::wifi_setup_done() {
 
 void LCD1602::IO_setup() { print1line("IO Setup", 1, true); }
 void LCD1602::IO_test(String item, bool test, String ok, String ko) { print2lines(item, test ? ok : ko, 1); }
+void LCD1602::octoprint_setup() { print2lines("Connecting", "to Octoprint", 1, true); };
+void LCD1602::octoprint_setup_done(bool success) {
+  if (success) {
+    print2lines("Connected", "to Octoprint", 1, true);
+    octoprint_version();
+  } else
+    print2lines("Not connected", "to Octoprint", 1, true);
+};
 void LCD1602::octoprint_version() {
   print2lines("Octoprint V" + octoprint.get_octoprint_version(),
               "API V" + octoprint.get_api_version(), 1, true);
 }
 
 void LCD1602::watchdog_setup() { print2lines("Watchdog Setup", "60s", 1, true); }
+
+void LCD1602::mqtt_setup() { print2lines("Connecting", "to MQTT", 1, true); };
+void LCD1602::mqtt_setup_done(bool success) {
+  if (success)
+    print2lines("Connected", "to MQTT", 1, true);
+  else
+    print2lines("Not connected", "to MQTT", 1, true);
+};
 
 /* run */
 void LCD1602::start() { print2lines("Starting", "", 1, true); }
@@ -45,7 +58,7 @@ void LCD1602::run() {
   static unsigned char brightness       = 255;
 
   if (Display::menu()) {
-    l1 = l2 = "";
+    lines[0] = lines[1] = "";
     return;
   }
   switch (action) {
@@ -97,21 +110,9 @@ void LCD1602::run() {
   }
 }
 
-void LCD1602::reset() {
-  lcd.setBacklight(255);
-  clear();
-}
-void LCD1602::clear() { lcd.clear(); }
-
 void LCD1602::show_datetime() { print2lines("    " + rtc_date(), "    " + rtc_time()); }
 
 /* Sensors */
-String LCD1602::format_value(String item, int value, String unit, status_e status) {
-  return item + ":" +
-         String(value) + (unit == "C" ? CELCIUS : unit) +
-         " " + status_str(status);  //char 223 for °
-}
-
 void LCD1602::show_ambiant() {
   print2lines(format_value("T", ambiant_sensor.get_temperature(), "C", ambiant_sensor.get_temperature_status()),
               format_value("H", ambiant_sensor.get_humidity(), "%", ambiant_sensor.get_humidity_status()));
@@ -173,24 +174,3 @@ void LCD1602::show_temp(const String item,
 void LCD1602::settings_saved() { print1line("Settings saved", 1); }
 void LCD1602::settings_reset() { print1line("Settings reset", 1); }
 void LCD1602::settings_reloaded() { print2lines("Settings", "reloaded", 1); }
-
-/* Helpers */
-void LCD1602::print1line(const String line1, short _delay, bool _clear) { print2lines(line1, "", _delay, _clear); }
-
-void LCD1602::print2lines(const String line1, const String line2, short _delay, bool _clear) {
-  if (l1 != line1 || l2 != line2) {
-    l1 = line1;
-    l2 = line2;
-    clear();
-    lcd.print(line1.c_str());
-    lcd.setCursor(0, 1);
-    lcd.print(line2.c_str());
-  }
-  if (_delay)
-    delay(_delay * 1000);
-  if (_clear)
-    clear();
-}
-
-/* Shutdown */
-void LCD1602::shutdown() { print2lines("Start to pray.", "We must reset!"); }

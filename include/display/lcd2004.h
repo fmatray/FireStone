@@ -1,9 +1,9 @@
-#ifndef LCD1602_H
-#define LCD1602_H
+#ifndef LCD2004_H
+#define LCD2004_H
 
 #include "display/lcdxxxx.h"
 
-class LCD1602 : public LCDXXXX {
+class LCD2004 : public LCDXXXX {
  public:
   /* Setup */
   void welcome();
@@ -15,7 +15,6 @@ class LCD1602 : public LCDXXXX {
   void IO_test(String item, bool test, String ok = "OK", String ko = "KO");
   void octoprint_setup();
   void octoprint_setup_done(bool success);
-
   void octoprint_version();
   void watchdog_setup();
   void mqtt_setup();
@@ -32,24 +31,22 @@ class LCD1602 : public LCDXXXX {
   void settings_reloaded();
 
  private:
-  typedef void (LCD1602::*lcd1602_ptr)();
+  typedef void (LCD2004::*lcd2004_ptr)();
   typedef struct
   {
     unsigned char duration;
-    lcd1602_ptr func;
+    lcd2004_ptr func;
     bool cond;
   } modes_s;
 
   /* helpers */
-  void show_datetime();
-  void show_ambiant();
+  void print4lines(const String line1, const String line2, const String line3, const String line4,
+                   short _delay = 0, bool _clear = false);
+  void show_datetime_ambiant();
   void show_relays();
-  void show_octoprint_status();
-  void show_printer_status();
-  void show_temp(const String item, const int temp, const int target, const int offset, const status_e status);
-  void show_ext0_temp();
-  void show_ext1_temp();
-  void show_bed_temp();
+  void show_octoprint_printer_status();
+  String temp_to_string(const String item, const int temp, const int target, const int offset, const status_e status);
+  void show_printer_temps();
 };
 
 #endif

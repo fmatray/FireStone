@@ -39,7 +39,7 @@ class OctoPrint : public Sensor, public Action {
 
   bool test() { return check_version() == OK; };
   void reset();
-  void run() {};
+  void run(){};
   void run_sensor();
   void run_action();
   bool read();
@@ -64,16 +64,33 @@ class OctoPrint : public Sensor, public Action {
 
   /* Tools */
   bool is_ext0_available() { return (printer_operational && ext0_available); };
+  void set_ext0(float actual, float target) {
+    ext0_temp   = actual;
+    ext0_target = target;
+    ext0_status = check_temperature("Extruder0: ", ext0_temp, max_temp_ext0, ext0_target);
+  };
   float get_ext0_temp() { return ext0_temp; };
   float get_ext0_target() { return ext0_target; };
   float get_ext0_offset() { return ext0_offset; };
 
   bool is_ext1_available() { return (printer_operational && ext1_available); };
+  void set_ext1(float actual, float target) {
+    ext1_temp   = actual;
+    ext1_target = target;
+    ext1_status = check_temperature("Extruder1: ", ext1_temp, max_temp_ext1, ext1_target);
+  };
+
   float get_ext1_temp() { return ext1_temp; };
   float get_ext1_target() { return ext1_target; };
   float get_ext1_offset() { return ext1_offset; };
 
   bool is_bed_available() { return (printer_operational && bed_available); };
+  void set_bed(float actual, float target) {
+    bed_temp   = actual;
+    bed_target = target;
+    bed_status = check_temperature("Bed: ", bed_temp, max_temp_bed, bed_target);
+  };
+
   float get_bed_temp() { return bed_temp; };
   float get_bed_target() { return bed_target; };
   float get_bed_offset() { return bed_offset; };

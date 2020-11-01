@@ -18,7 +18,6 @@
 #include "IO/timer.h"
 
 /* Display */
-#include "display/lcd1602.h"
 
 /* Clock */
 extern RTCZero rtc;
@@ -43,14 +42,25 @@ extern RelayAction relay4;
 extern WDTZero medor;  // Define WatchDog
 
 /* Display */
-#if DISPLAY_TYPE == LCD1602
+#if defined(DISPLAY_TYPE) && DISPLAY_TYPE == 1602
+#define NB_COL  16
+#define NB_LINE 2
+#include "display/lcd1602.h"
 extern LCD1602 display;
 extern LiquidCrystal_PCF8574 lcd;
 #define CELCIUS "\xdf\x43"
-#define NB_COL  16
-#define NB_LINE 2
+
+#elif defined(DISPLAY_TYPE) && DISPLAY_TYPE == 2004
+#define NB_COL  20
+#define NB_LINE 4
+#include "display/lcd2004.h"
+extern LCD2004 display;
+extern LiquidCrystal_PCF8574 lcd;
+#define CELCIUS "\xdf\x43"
 #else
 #define CELCIUS "°C"
 #error "NO DISPLAY DEFINED"
 #endif
+
+
 #endif

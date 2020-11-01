@@ -53,7 +53,7 @@ void Settings::reset() {
   ambiant_settings.humid_ambient_offset = 0;
   ambiant_settings.min_temp_ambiant     = 15;
   ambiant_settings.max_temp_ambiant     = 40;
-  ambiant_settings.max_humid_ambiant    = 60;
+  ambiant_settings.max_humid_ambiant    = 90;
 
   /* Octoprint */
   octoprint_settings.interval      = 10;
@@ -75,15 +75,17 @@ void Settings::reset() {
 }
 FlashStorage(settings_store, SettingsData);
 
-void Settings::begin() { load(); }
-void Settings::load() {
+bool Settings::begin() { return load(); }
+bool Settings::load() {
   SettingsData saved_data = settings_store.read();
   title("Loading Settings");
   if (saved_data.checksum == saved_data.calculate_checksum()) {
     this->populate(&saved_data);
     Serial.println("Success");
+    return true;
   } else
     Serial.println("Fail");
+    return false;
 }
 
 void Settings::update() {
