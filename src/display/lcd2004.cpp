@@ -146,7 +146,7 @@ void LCD2004::show_octoprint_printer_status() {
 }
 
 void LCD2004::show_printer_temps() {
-  printlinen("Ext & Bed:" + status_str(max(max(octoprint.get_ext0_status(), octoprint.get_ext1_status()), octoprint.get_bed_status())), 0, true);
+  printlinen("Ext&Bed:" + status_str(max(max(octoprint.get_ext0_status(), octoprint.get_ext1_status()), octoprint.get_bed_status())), 0, true);
   if (octoprint.is_ext0_available())
     printlinen(temp_to_string("Ex0", octoprint.get_ext0_temp(), octoprint.get_ext0_target(), octoprint.get_ext0_offset()), 1);
   else

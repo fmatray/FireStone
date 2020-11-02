@@ -11,7 +11,7 @@ Controler::Controler(const uint8_t _reset_pin) { reset_pin = _reset_pin; }
 
 void Controler::begin() {
   title("Controler Setup");
-  pinMode(reset_pin, INPUT_PULLDOWN);
+  pinMode(reset_pin, INPUT_PULLUP);
   for (unsigned int i = 0; i < RULES_SIZE; i++)
     rules[i] = NULL;
   rules[0] = new FireRule();

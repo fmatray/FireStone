@@ -13,7 +13,7 @@ EmergencySensor::EmergencySensor(const uint8_t _emergency_pin) {
 
 void EmergencySensor::begin() {
   title("Emergency Sensor Setup");
-  pinMode(emergency_pin, INPUT_PULLDOWN);
+  pinMode(emergency_pin, INPUT_PULLUP);
 }
 
 /*

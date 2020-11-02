@@ -41,7 +41,7 @@ const IPAddress OCTOPRINT_IP(192, 168, 1, 110);  // Octoprint server
  */
 /* Buzzer */
 #define BUZZER_PIN    8
-#define BUZZER_ACTIVE false
+#define BUZZER_ACTIVE true
 
 /* Relays */
 #define RELAY1_PIN 2
