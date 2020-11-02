@@ -39,7 +39,7 @@ void setup() {
   /* LOAD SETTINGS */
   display.settings_setup(settings.begin());
   settings.print();
-  
+
   /* RTC + WIFI Setup */
   rtc.begin();  // Clock setup
   display.wifi_setup();
@@ -108,7 +108,7 @@ void loop() {
   wificonnexion.run();
   if (wificonnexion.is_connected()) {
     octoprint.run_sensor();
-    mqtt.run();
+    //mqtt.run();
   }
   delay(20);
 #ifdef FS_DEBUG
@@ -132,7 +132,7 @@ void loop1() {
   controler.run();
 
   /* Run Actions */
-  octoprint.run_action();
+  //  octoprint.run_action();
   relay1.run();
   relay2.run();
   relay3.run();

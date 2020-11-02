@@ -48,7 +48,7 @@ class OctoPrint : public Sensor, public Action {
   /* Status octoprint */
   bool is_octoprint_connected() { return octoprint_status == connected; };
   octoprint_status_e get_octoprint_status() { return octoprint_status; };
-  String get_octoprint_status_as_str() { return octoprint_status == connected ? "Connected" : "Not connected"; };
+  const String get_octoprint_status_as_str() { return octoprint_status == connected ? "Connected" : "Not connected"; };
   String get_api_version() { return api_version; };
   String get_octoprint_version() { return octoprint_version; };
 

@@ -33,8 +33,8 @@ void WifiConnexion::begin() {
     display.wifi_update_fw();
   }
   connect_delay();
-  if (!mdns_responder.begin(MDNS_NAME))
-    Serial.println("Failed to start MDNS responder!");
+//  if (!mdns_responder.begin(MDNS_NAME))
+//    Serial.println("Failed to start MDNS responder!");
 }
 
 /*
@@ -45,7 +45,7 @@ bool WifiConnexion::run() {
   if (WiFi.status() == WL_CONNECTED) {
     connected = true;
     updateRTC();
-    mdns_responder.poll();
+    //mdns_responder.poll();
     return true;
   }
   connected = false;

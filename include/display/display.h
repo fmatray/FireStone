@@ -43,10 +43,10 @@ class Display : public Action {
   virtual void mqtt_setup_done(bool success)                                       = 0;
 
   /* Run */
-  virtual void start() = 0;
-  virtual void run()   = 0;
-  virtual void reset() = 0;
-
+  virtual void start()      = 0;
+  virtual void run()        = 0;
+  virtual void reset()      = 0;
+  virtual void show_alert() = 0;
   /* Menu */
   bool menu();
   virtual void settings_saved()    = 0;

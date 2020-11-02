@@ -88,51 +88,16 @@ void LCD2004::start() {
   printlinen("Starting", 1, true);
 }
 
-void LCD2004::run() {
-  static unsigned long display_lasttime = 0;
-  static unsigned long change_lasttime  = 0;
-  static unsigned long blink_lasttime   = 0;
-  static unsigned char mode_iter        = 0;
-  static unsigned char brightness       = 255;
-
-  if (Display::menu()) {
-    lines[0] = lines[1] = lines[2] = lines[3] = "";
-    return;
-  }
-  switch (action) {
-    case nothing:
-      break;
-    case off:
-    case sleep:
-      lcd.setBacklight(0);
-      clear();
-      return;
-    case wakeup:
-    case restore:
-      lcd.setBacklight(255);
-      break;
-    case err:
-    case warn:
-    case alert:
-      if (check_time(blink_lasttime, 1)) {
-        brightness = brightness == 255 ? 0 : 255;
-        lcd.setBacklight(brightness);
-        blink_lasttime = millis();
-      }
-      print2lines(action_str(action), message);
-      return;
-  }
+void LCD2004::show_mode() {
+  static unsigned long change_lasttime = 0;
+  static uint8_t mode_iter             = 0;
 
   modes_s modes[] = {
       {5, &LCD2004::show_datetime_ambiant, true},
-      {2, &LCD2004::show_octoprint_printer_status, true},
-      {5, &LCD2004::show_printer_temps, octoprint.is_octoprint_connected()},
+      {5, &LCD2004::show_octoprint_printer_status, true},
+      {5, &LCD2004::show_printer_temps, octoprint.is_printer_operational()},
       {2, &LCD2004::show_relays, true},
       {0, NULL, false}};
-
-  if (!check_time(display_lasttime, 1))
-    return;
-  display_lasttime = millis();
 
   (this->*modes[mode_iter].func)();
   if (check_time(change_lasttime, modes[mode_iter].duration)) {
@@ -143,57 +108,68 @@ void LCD2004::run() {
     mode_iter = 0;
   }
 }
-
 void LCD2004::show_datetime_ambiant() {
-  print4lines(rtc_time() + "    " + rtc_date(), "",
-              format_value("Temp", ambiant_sensor.get_temperature(), "C", ambiant_sensor.get_temperature_status()),
-              format_value("Humid", ambiant_sensor.get_humidity(), "%", ambiant_sensor.get_humidity_status()));
+  printlinen(rtc_time() + "    " + rtc_date(), 0);
+  clearline(1);
+  printlinen(format_value("Temp", ambiant_sensor.get_temperature(), "C", ambiant_sensor.get_temperature_status()), 2);
+  printlinen(format_value("Humid", ambiant_sensor.get_humidity(), "%", ambiant_sensor.get_humidity_status()), 3);
 }
 
 /* Sensors */
 
 void LCD2004::show_relays() {
-  print4lines(
-      "Relay 1:" + relay1.get_state_as_str(),
-      "Relay 2:" + relay2.get_state_as_str(),
-      "Relay 3:" + relay3.get_state_as_str(),
-      "Relay 4:" + relay4.get_state_as_str());
+  printlinen("Relay 1:" + relay1.get_state_as_str(), 0);
+  printlinen("Relay 2:" + relay2.get_state_as_str(), 1);
+  printlinen("Relay 3:" + relay3.get_state_as_str(), 2);
+  printlinen("Relay 4:" + relay4.get_state_as_str(), 3);
 }
 
 void LCD2004::show_octoprint_printer_status() {
-  printlinen("Octoprint" + octoprint.get_octoprint_status_as_str(), 1, true);
+  printlinen("Octoprint ", 0, true);
+  printlinen(octoprint.get_octoprint_status_as_str(), 1, true);
 
+  if (!octoprint.is_octoprint_connected()) {
+    clearline(2);
+    clearline(3);
+    return;
+  }
   if (octoprint.is_printer_operational()) {
-    printlinen("Printer" + octoprint.get_printer_status_as_str(), 1, true);
+    printlinen("Printer " + octoprint.get_printer_status_as_str(), 2, true);
     if (octoprint.is_working())
-      printlinen(String(octoprint.get_completion()) + "%", 2, true);
-
+      printlinen(String(octoprint.get_completion()) + "%", 3, true);
+    else
+      clearline(3);
   } else {
-    printlinen("Printer", 1, true);
-    printlinen("not operational", 2, true);
+    printlinen("Printer", 2, true);
+    printlinen("not operational", 3, true);
   }
 }
 
 void LCD2004::show_printer_temps() {
-  print4lines(
-      temp_to_string("Ex0",
-                     octoprint.get_ext0_temp(), octoprint.get_ext0_target(), octoprint.get_ext0_offset(),
-                     octoprint.get_ext0_status()),
-      temp_to_string("Ex1",
-                     octoprint.get_ext1_temp(), octoprint.get_ext1_target(), octoprint.get_ext1_offset(),
-                     octoprint.get_ext1_status()),
-      temp_to_string("Bed",
-                     octoprint.get_bed_temp(), octoprint.get_bed_target(), octoprint.get_bed_offset(),
-                     octoprint.get_bed_status()),
-      "");
-  printlinen(status_str(max(max(octoprint.get_ext0_status(), octoprint.get_ext1_status()), octoprint.get_bed_status())),
-             3, true);
+  printlinen("Ext & Bed:" + status_str(max(max(octoprint.get_ext0_status(), octoprint.get_ext1_status()), octoprint.get_bed_status())), 0, true);
+  if (octoprint.is_ext0_available())
+    printlinen(temp_to_string("Ex0", octoprint.get_ext0_temp(), octoprint.get_ext0_target(), octoprint.get_ext0_offset()), 1);
+  else
+    clearline(1);
+  if (octoprint.is_ext1_available())
+    printlinen(temp_to_string("Ex1", octoprint.get_ext1_temp(), octoprint.get_ext1_target(), octoprint.get_ext1_offset()), 2);
+  else
+    clearline(2);
+  if (octoprint.is_bed_available())
+    printlinen(temp_to_string("Bed", octoprint.get_bed_temp(), octoprint.get_bed_target(), octoprint.get_bed_offset()), 3);
+  else
+    clearline(3);
 }
 
-String LCD2004::temp_to_string(const String item,
-                               const int temp, const int target, const int offset,
-                               const status_e status) {
+String LCD2004::temp_to_string(const String item, const int temp, const int target, const int offset) {
   return item + ":" + String(temp) + CELCIUS + " (" + String(target) + "+" + offset + ")";
+}
+
+void LCD2004::show_alert() {
+  clearline(0);
+  printlinen(action_str(action), 1, true);
+  printlinen(message, 2, true);
+  clearline(3);
 }
 
 /* Menu */

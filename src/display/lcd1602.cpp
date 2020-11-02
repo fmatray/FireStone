@@ -50,40 +50,9 @@ void LCD1602::mqtt_setup_done(bool success) {
 
 /* run */
 void LCD1602::start() { print2lines("Starting", "", 1, true); }
-void LCD1602::run() {
-  static unsigned long display_lasttime = 0;
-  static unsigned long change_lasttime  = 0;
-  static unsigned long blink_lasttime   = 0;
-  static unsigned char mode_iter        = 0;
-  static unsigned char brightness       = 255;
-
-  if (Display::menu()) {
-    lines[0] = lines[1] = "";
-    return;
-  }
-  switch (action) {
-    case nothing:
-      break;
-    case off:
-    case sleep:
-      lcd.setBacklight(0);
-      lcd.clear();
-      return;
-    case wakeup:
-    case restore:
-      lcd.setBacklight(255);
-      break;
-    case err:
-    case warn:
-    case alert:
-      if (check_time(blink_lasttime, 1)) {
-        brightness = brightness == 255 ? 0 : 255;
-        lcd.setBacklight(brightness);
-        blink_lasttime = millis();
-      }
-      print2lines(action_str(action), message);
-      return;
-  }
+void LCD1602::show_mode() {
+  static unsigned long change_lasttime = 0;
+  static unsigned char mode_iter       = 0;
 
   modes_s modes[] = {
       {2, &LCD1602::show_datetime, rtc.isConfigured()},
@@ -95,10 +64,6 @@ void LCD1602::run() {
       {3, &LCD1602::show_ambiant, true},
       {2, &LCD1602::show_relays, true},
       {0, NULL, false}};
-
-  if (!check_time(display_lasttime, 1))
-    return;
-  display_lasttime = millis();
 
   (this->*modes[mode_iter].func)();
   if (check_time(change_lasttime, modes[mode_iter].duration)) {
@@ -168,6 +133,10 @@ void LCD1602::show_temp(const String item,
                         const status_e status) {
   print2lines(item + ":" + String(temp) + CELCIUS + "/" + String(target) + "+" + offset,
               status_str(status));
+}
+
+void LCD1602::show_alert() {
+  print2lines(action_str(action), message);
 }
 
 /* Menu */

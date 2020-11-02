@@ -22,7 +22,6 @@ class LCD2004 : public LCDXXXX {
 
   /* Start */
   void start();
-  void run();
 
   /* Menu */
   bool menu();
@@ -38,15 +37,16 @@ class LCD2004 : public LCDXXXX {
     lcd2004_ptr func;
     bool cond;
   } modes_s;
-
+  void show_mode();
   /* helpers */
   void print4lines(const String line1, const String line2, const String line3, const String line4,
                    short _delay = 0, bool _clear = false);
   void show_datetime_ambiant();
   void show_relays();
   void show_octoprint_printer_status();
-  String temp_to_string(const String item, const int temp, const int target, const int offset, const status_e status);
+  String temp_to_string(const String item, const int temp, const int target, const int offset);
   void show_printer_temps();
+  void show_alert();
 };
 
 #endif

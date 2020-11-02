@@ -23,7 +23,7 @@ class LCD1602 : public LCDXXXX {
 
   /* Start */
   void start();
-  void run();
+  void show_mode();
 
   /* Menu */
   bool menu();
@@ -50,6 +50,7 @@ class LCD1602 : public LCDXXXX {
   void show_ext0_temp();
   void show_ext1_temp();
   void show_bed_temp();
+  void show_alert();
 };
 
 #endif

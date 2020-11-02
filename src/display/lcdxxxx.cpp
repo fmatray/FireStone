@@ -18,6 +18,46 @@ void LCDXXXX::reset() {
 
 void LCDXXXX::clear() { lcd.clear(); }
 
+void LCDXXXX::run() {
+  static unsigned long display_lasttime = 0;
+  static unsigned long blink_lasttime   = 0;
+  static uint8_t brightness             = 255;
+
+  if (Display::menu()) {
+    lines[0] = lines[1] = lines[2] = lines[3] = "";
+    return;
+  }
+  switch (action) {
+    case nothing:
+      break;
+    case off:
+    case sleep:
+      lcd.setBacklight(0);
+      clear();
+      return;
+    case wakeup:
+    case restore:
+      lcd.setBacklight(255);
+      break;
+    case err:
+    case warn:
+    case alert:
+      if (check_time(blink_lasttime, 1)) {
+        brightness = brightness == 255 ? 0 : 255;
+        lcd.setBacklight(brightness);
+        blink_lasttime = millis();
+      }
+      show_alert();
+      return;
+  }
+
+  if (!check_time(display_lasttime, 1))
+    return;
+  display_lasttime = millis();
+
+  show_mode();
+}
+
 String LCDXXXX::format_value(String item, int value, String unit, status_e status) {
   return item + ":" +
          String(value) + (unit == "C" ? CELCIUS : unit) +
@@ -25,14 +65,22 @@ String LCDXXXX::format_value(String item, int value, String unit, status_e statu
 }
 
 /* Helpers */
-void LCDXXXX::printlinen(const String line, uint8_t n, bool center, short _delay, bool _clear) {
-  lines[n] = "";
-  for (char i = 0; i < center * (NB_COL - line.length()) / 2; i++)
-    lines[n] += " ";
-  lines[n] = lines[n]+ line + lines[n];
+void LCDXXXX::clearline(uint8_t n) {
+  lines[n] = "                    ";
   lcd.setCursor(0, n);
   lcd.print(lines[n]);
+}
 
+void LCDXXXX::printlinen(const String line, uint8_t n, bool center, short _delay, bool _clear) {
+  if (lines[n] == line)
+    return;
+  clearline(n);
+  lines[n] = line;
+  if (center && lines[n].length() < NB_COL)
+    lcd.setCursor((NB_COL - lines[n].length()) / 2, n);
+  else
+    lcd.setCursor(0, n);
+  lcd.print(lines[n]);
   if (_delay)
     delay(_delay * 1000);
   if (_clear)
