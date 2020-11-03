@@ -12,7 +12,7 @@ FireSensor::FireSensor(const uint8_t _pin) {
 
 void FireSensor::begin() {
   title("Fire Sensor Setup");
-  pinMode(pin, INPUT_PULLUP);
+  pinMode(pin, INPUT_PULLDOWN);
 }
 /*
    LOOP
