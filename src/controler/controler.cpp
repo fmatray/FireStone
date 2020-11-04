@@ -11,7 +11,11 @@ Controler::Controler(const uint8_t _reset_pin) { reset_pin = _reset_pin; }
 
 void Controler::begin() {
   title("Controler Setup");
+#ifndef EMERGENCY_INVERTED
+  pinMode(reset_pin, INPUT_PULLDOWN);
+#else
   pinMode(reset_pin, INPUT_PULLUP);
+#endif
   for (unsigned int i = 0; i < RULES_SIZE; i++)
     rules[i] = NULL;
   rules[0] = new FireRule();
@@ -43,7 +47,12 @@ void Controler::run() {
   if (dispatcher.need_reset()) {
     if (debounce(&reset_lasttime, &reset_last_state, &reset_button_state,
                  digitalRead(reset_pin), RESET_INTERVAL) &&
-        reset_button_state == true) {
+#ifdef EMERGENCY_INVERTED
+        reset_button_state == false)
+#else
+        reset_button_state == true)
+#endif
+    {
       reset();
       return;
     }

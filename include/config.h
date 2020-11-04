@@ -28,6 +28,7 @@
 /* EMERGENCY */
 #define EMERGENCY_PIN       A5  // RED EMERGENCY BUTTON
 #define EMERGENCY_RESET_PIN A6  // reset button
+#define EMERGENCY_INVERTED
 
 /* FIRE */
 #define FIRE_PIN 9  // Fire detector
@@ -41,7 +42,7 @@ const IPAddress OCTOPRINT_IP(192, 168, 1, 110);  // Octoprint server
  */
 /* Buzzer */
 #define BUZZER_PIN    8
-#define BUZZER_ACTIVE true
+#define BUZZER_ACTIVE
 
 /* Relays */
 #define RELAY1_PIN 2
