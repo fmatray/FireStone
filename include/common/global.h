@@ -10,6 +10,7 @@
 
 /* IO */
 #include "IO/ambiant.h"
+#include "IO/aq.h"
 #include "IO/buzzer.h"
 #include "IO/emergency.h"
 #include "IO/fire.h"
@@ -27,16 +28,17 @@ extern WifiConnexion wificonnexion;
 extern MQTT mqtt;
 
 /* IO */
+extern AirQuality air_quality;
 extern AmbiantSensor ambiant_sensor;
+extern BuzzerAction buzzer;
 extern EmergencySensor emergency_sensor;
 extern FireSensor fire_sensor;
-extern TimerSensor timer;
 extern OctoPrint octoprint;
-extern BuzzerAction buzzer;
 extern RelayAction relay1;
 extern RelayAction relay2;
 extern RelayAction relay3;
 extern RelayAction relay4;
+extern TimerSensor timer;
 
 /* WatchDog */
 extern WDTZero medor;  // Define WatchDog

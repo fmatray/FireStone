@@ -108,6 +108,7 @@ void LCD2004::show_mode() {
     mode_iter = 0;
   }
 }
+
 void LCD2004::show_datetime_ambiant() {
   printlinen(rtc_time() + "    " + rtc_date(), 0);
   clearline(1);

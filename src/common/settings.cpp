@@ -6,9 +6,12 @@
 #include "common/helpers.h"
 
 void SettingsData::populate(const SettingsData *obj) {
-  timezone_offset             = obj->timezone_offset;
-  timer_settings.idle_timeout = obj->timer_settings.idle_timeout;
-  timer_settings.off_timeout  = obj->timer_settings.off_timeout;
+
+  /* Air Quality */
+  air_quality_settings.smoke_warning = obj->air_quality_settings.smoke_warning;
+  air_quality_settings.smoke_alert   = obj->air_quality_settings.smoke_alert;
+  air_quality_settings.smoke_pm25    = obj->air_quality_settings.smoke_pm25;
+  air_quality_settings.smoke_pm10    = obj->air_quality_settings.smoke_pm10;
 
   /* Ambiant */
   ambiant_settings.temp_ambient_offset  = obj->ambiant_settings.temp_ambient_offset;
@@ -28,6 +31,12 @@ void SettingsData::populate(const SettingsData *obj) {
   relay2_settings = obj->relay2_settings;
   relay3_settings = obj->relay3_settings;
   relay4_settings = obj->relay4_settings;
+
+  /* timezone & timer */
+  timezone_offset             = obj->timezone_offset;
+  timer_settings.idle_timeout = obj->timer_settings.idle_timeout;
+  timer_settings.off_timeout  = obj->timer_settings.off_timeout;
+
   checksum        = this->calculate_checksum();
   Serial.print("Checksum:");
   Serial.println(checksum);
@@ -48,6 +57,13 @@ void Settings::reset() {
   timezone_offset             = +2;
   timer_settings.idle_timeout = 5;
   timer_settings.off_timeout  = 10;
+
+  /* Air Quality */
+  air_quality_settings.smoke_warning = 3;
+  air_quality_settings.smoke_alert   = 3;
+  air_quality_settings.smoke_pm25    = 150;
+  air_quality_settings.smoke_pm10    = 150;
+
   /* Ambiant */
   ambiant_settings.temp_ambient_offset  = 0;
   ambiant_settings.humid_ambient_offset = 0;
@@ -73,6 +89,7 @@ void Settings::reset() {
 
   _changed = false;
 }
+
 FlashStorage(settings_store, SettingsData);
 
 bool Settings::begin() { return load(); }
@@ -85,19 +102,19 @@ bool Settings::load() {
     return true;
   } else
     Serial.println("Fail");
-    return false;
+  return false;
 }
 
 void Settings::update() {
   print();
+  air_quality.update(air_quality_settings);
   ambiant_sensor.update(ambiant_settings);
-  timer.update(timer_settings);
   octoprint.update(octoprint_settings);
-
   relay1.update(relay1_settings);
   relay2.update(relay2_settings);
   relay3.update(relay3_settings);
   relay4.update(relay4_settings);
+  timer.update(timer_settings);
   _changed = false;
 }
 
@@ -135,6 +152,17 @@ void Settings::print() {
   Serial.print("Max humid ambiant:");
   Serial.print(ambiant_settings.max_humid_ambiant);
   Serial.println("%");
+
+  Serial.print("Smoke Warning:");
+  Serial.println(air_quality_settings.smoke_warning);
+  Serial.print("Smoke Alert:");
+  Serial.println(air_quality_settings.smoke_alert);
+  Serial.print("Smoke PM2.5 thresold:");
+  Serial.print(air_quality_settings.smoke_pm25);
+  Serial.println("µg/m3");
+  Serial.print("Smoke PM10 thresold:");
+  Serial.print(air_quality_settings.smoke_pm10);
+  Serial.println("µg/m3");
 
   Serial.print("Octroprint Interval:");
   Serial.print(octoprint_settings.interval);

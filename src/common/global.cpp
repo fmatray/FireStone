@@ -7,6 +7,7 @@
 
 /* IO */
 #include "IO/ambiant.h"
+#include "IO/aq.h"
 #include "IO/buzzer.h"
 #include "IO/emergency.h"
 #include "IO/fire.h"
@@ -22,6 +23,7 @@ MQTT mqtt;
 
 /* IO */
 AmbiantSensor ambiant_sensor(TEMP_HUMIDITY_PIN);
+AirQuality air_quality;
 EmergencySensor emergency_sensor(EMERGENCY_PIN);
 FireSensor fire_sensor(FIRE_PIN);
 TimerSensor timer;

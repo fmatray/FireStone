@@ -1,6 +1,7 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 #include "IO/ambiant.h"
+#include "IO/aq.h"
 #include "IO/octoprint.h"
 #include "IO/relay.h"
 #include "IO/timer.h"
@@ -14,6 +15,8 @@ class SettingsData {
   /* Time */
   int8_t timezone_offset;  // TODO : use a TimeZone Library
   timer_settings_t timer_settings;
+  /* air_quality */
+  air_quality_settings_t air_quality_settings;
   /* Ambiant */
   ambiant_settings_t ambiant_settings;
   /* Octoprint */

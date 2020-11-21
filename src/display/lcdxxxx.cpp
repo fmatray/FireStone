@@ -58,7 +58,7 @@ void LCDXXXX::run() {
   show_mode();
 }
 
-String LCDXXXX::format_value(String item, int value, String unit, status_e status) {
+String LCDXXXX::format_value(String item, int32_t value, String unit, status_e status) {
   return item + ":" +
          String(value) + (unit == "C" ? CELCIUS : unit) +
          " " + status_str(status);  //char 223 for °

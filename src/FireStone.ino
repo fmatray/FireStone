@@ -53,6 +53,8 @@ void setup() {
   ambiant_sensor.update(settings.ambiant_settings);
   display.IO_test("Ambient Sensor", ambiant_sensor.test());
 
+  air_quality.begin();
+  display.IO_test("Air Quality Sensor", air_quality.test());
   emergency_sensor.begin();
   fire_sensor.begin();
 
@@ -77,9 +79,10 @@ void setup() {
 
   /* Start loops */
   timer.clear();
+  settings.update();
   display.start();
   Scheduler.startLoop(loop1);
-  Scheduler.startLoop(loop2);
+  //Scheduler.startLoop(loop2);
 #ifdef FS_DEBUG
   freememory();
 #endif
@@ -105,11 +108,11 @@ void loop() {
 
   medor.clear();  // Restart Watchdog
 
-  wificonnexion.run();
+  /*wificonnexion.run();
   if (wificonnexion.is_connected()) {
     octoprint.run_sensor();
     //mqtt.run();
-  }
+  }*/
   delay(20);
 #ifdef FS_DEBUG
   if (millis() - timer_loop0 > 5000) {
@@ -123,7 +126,8 @@ void loop1() {
 #ifdef FS_DEBUG
   timer_loop1 = millis();
 #endif
-  ambiant_sensor.run();
+  //ambiant_sensor.run();
+  air_quality.run();
   emergency_sensor.run();
   fire_sensor.run();
   timer.run();

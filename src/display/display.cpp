@@ -77,6 +77,13 @@ result reload_settings() {
 }
 
 /* MENU */
+MENU(air_quality_menu, "Air Quality", Menu::doNothing, Menu::noEvent, Menu::noStyle,
+     FIELD(settings.air_quality_settings.smoke_pm25, "PM25", "ug/m3", 100, 300, 50, 10, update_settings, Menu::updateEvent, Menu::noStyle),
+     FIELD(settings.air_quality_settings.smoke_pm10, "PM10", "ug/m3", 100, 300, 50, 10, update_settings, Menu::updateEvent, Menu::noStyle),
+     FIELD(settings.air_quality_settings.smoke_warning, "Warning", "", 1, 6, 1, 0, update_settings, Menu::updateEvent, Menu::noStyle),
+     FIELD(settings.air_quality_settings.smoke_alert, "Alert", "", 1, 6, 1, 0, update_settings, Menu::updateEvent, Menu::noStyle),
+     EXIT("<Back"));
+
 MENU(ambiant_menu, "Ambiant", Menu::doNothing, Menu::noEvent, Menu::noStyle,
      FIELD(settings.ambiant_settings.temp_ambient_offset, "T Offset", CELCIUS, -5, 5, 1, 0.1, update_settings, Menu::updateEvent, Menu::noStyle),
      FIELD(settings.ambiant_settings.humid_ambient_offset, "H Offset", CELCIUS, -5, 5, 1, 0.1, update_settings, Menu::updateEvent, Menu::noStyle),
@@ -133,6 +140,7 @@ MENU(advanced_menu, "Advanced", Menu::doNothing, Menu::noEvent, Menu::noStyle,
      EXIT("<Back"));
 
 MENU(main_menu, "Menu", Menu::doNothing, Menu::noEvent, Menu::noStyle,
+     SUBMENU(air_quality_menu),
      SUBMENU(ambiant_menu),
      SUBMENU(octoprint_menu),
      SUBMENU(relays_menu),
