@@ -6,17 +6,16 @@
    SETUP
 */
 
-EmergencySensor::EmergencySensor(const uint8_t _emergency_pin) {
-  emergency_pin   = _emergency_pin;
+EmergencySensor::EmergencySensor() {
   emergency_state = false;
 }
 
 void EmergencySensor::begin() {
   title("Emergency Sensor Setup");
 #ifndef EMERGENCY_INVERTED
-  pinMode(emergency_pin, INPUT_PULLDOWN);
+  pinMode(EMERGENCY_PIN, INPUT_PULLDOWN);
 #else
-  pinMode(emergency_pin, INPUT_PULLUP);
+  pinMode(EMERGENCY_PIN, INPUT_PULLUP);
 #endif
 }
 
@@ -34,7 +33,7 @@ bool EmergencySensor::read() {
   static bool button_state                = false;
 
   if (debounce(&emergency_lasttime, &last_state, &button_state,
-               digitalRead(emergency_pin), EMERGENCY_INTERVAL)) {
+               digitalRead(EMERGENCY_PIN), EMERGENCY_INTERVAL)) {
 #ifndef EMERGENCY_INVERTED
     emergency_state = button_state;
 #else

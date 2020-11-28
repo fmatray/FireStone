@@ -48,6 +48,11 @@ class AirQuality : public Sensor {
   float temp() { return pms->temp; };  // °C
   float rhum() { return pms->rhum; };  // %
   float hcho() { return pms->hcho; };  // mg/m3
+  void set_temp_offset(float offset) { pms->set_temp_offset(offset); };
+  void set_rhum_offset(float offset) { pms->set_rhum_offset(offset); };
+
+  uint8_t CAQI() { return CAQI(pms->pm25, pms->pm10); };
+  const char *CAQI_str() { return CAQI_str(pms->pm25, pms->pm10); };
 
  private:
   SerialPM *pms;

@@ -7,14 +7,13 @@
 #include "controler/octoprint.h"
 #include "controler/time.h"
 
-Controler::Controler(const uint8_t _reset_pin) { reset_pin = _reset_pin; }
 
 void Controler::begin() {
   title("Controler Setup");
 #ifndef EMERGENCY_INVERTED
-  pinMode(reset_pin, INPUT_PULLDOWN);
+  pinMode(EMERGENCY_RESET_PIN, INPUT_PULLDOWN);
 #else
-  pinMode(reset_pin, INPUT_PULLUP);
+  pinMode(EMERGENCY_RESET_PIN, INPUT_PULLUP);
 #endif
   for (unsigned int i = 0; i < RULES_SIZE; i++)
     rules[i] = NULL;
@@ -46,7 +45,7 @@ void Controler::run() {
 
   if (dispatcher.need_reset()) {
     if (debounce(&reset_lasttime, &reset_last_state, &reset_button_state,
-                 digitalRead(reset_pin), RESET_INTERVAL) &&
+                 digitalRead(EMERGENCY_RESET_PIN), RESET_INTERVAL) &&
 #ifdef EMERGENCY_INVERTED
         reset_button_state == false)
 #else

@@ -22,13 +22,13 @@ WifiConnexion wificonnexion(WIFI_SSID, WIFI_PASSWORD);
 MQTT mqtt;
 
 /* IO */
-AmbiantSensor ambiant_sensor(TEMP_HUMIDITY_PIN);
+AmbiantSensor ambiant_sensor;
 AirQuality air_quality;
-EmergencySensor emergency_sensor(EMERGENCY_PIN);
-FireSensor fire_sensor(FIRE_PIN);
+EmergencySensor emergency_sensor;
+FireSensor fire_sensor;
 TimerSensor timer;
 OctoPrint octoprint;
-BuzzerAction buzzer(BUZZER_PIN);
+BuzzerAction buzzer;
 RelayAction relay1(RELAY1_PIN);
 RelayAction relay2(RELAY2_PIN);
 RelayAction relay3(RELAY3_PIN);

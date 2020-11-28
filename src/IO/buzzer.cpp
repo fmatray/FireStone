@@ -4,24 +4,23 @@
 
 #include "common/helpers.h"
 
-BuzzerAction::BuzzerAction(uint8_t _pin) {
-  pin    = _pin;
-  pinMode(pin, OUTPUT);
+BuzzerAction::BuzzerAction() {
+  pinMode(FIRE_PIN, OUTPUT);
 }
 
 void BuzzerAction::buzz(const unsigned short freq = 880) {
 #ifdef BUZZER_ACTIVE
-  digitalWrite(pin, HIGH);
+  digitalWrite(FIRE_PIN, HIGH);
 #else
-  tone(pin, freq);
+  tone(FIRE_PIN, freq);
 #endif
 }
 
 void BuzzerAction::no_buzz() {
 #ifdef BUZZER_ACTIVE
-  digitalWrite(pin, LOW);
+  digitalWrite(FIRE_PIN, LOW);
 #else
-  noTone(pin);
+  noTone(FIRE_PIN);
 #endif
 }
 

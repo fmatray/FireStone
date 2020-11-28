@@ -10,7 +10,6 @@
 
 class Controler {
  public:
-  Controler(const uint8_t _reset_pin);
   void begin();
   void reset();
   void run();
@@ -18,6 +17,5 @@ class Controler {
  private:
   Rule *rules[RULES_SIZE];
   Dispatcher dispatcher;
-  uint8_t reset_pin;
 };
 #endif

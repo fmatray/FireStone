@@ -23,11 +23,17 @@
 #define MQTT_PORT 1883             // Mosquitto port
 
 /* AMBIANT SENSOR */
+//#define USE_DHT
+#define USE_PMS
+
+#ifdef USE_DHT
 #define TEMP_HUMIDITY_PIN 10  // DHT11 or DHT22 pin
+#endif
 
 /* EMERGENCY */
 #define EMERGENCY_PIN       A5  // RED EMERGENCY BUTTON
 #define EMERGENCY_RESET_PIN A6  // reset button
+#define EMERGENCY_LED       6
 #define EMERGENCY_INVERTED
 
 /* FIRE */
@@ -41,7 +47,7 @@ const IPAddress OCTOPRINT_IP(192, 168, 1, 110);  // Octoprint server
  * ACTIONS
  */
 /* Buzzer */
-#define BUZZER_PIN    8
+#define BUZZER_PIN 8
 #define BUZZER_ACTIVE
 
 /* Relays */
@@ -57,8 +63,7 @@ const IPAddress OCTOPRINT_IP(192, 168, 1, 110);  // Octoprint server
 //#define DISPLAY_TYPE 1602
 #define DISPLAY_TYPE 2004
 //#define LCD_ADDRESS  0x3F  // I2C LCD 1602 ADDRESS
-#define LCD_ADDRESS  0x27  // I2C LCD 2004 ADDRESS
-
+#define LCD_ADDRESS 0x27  // I2C LCD 2004 ADDRESS
 
 /*
  * Input
@@ -73,10 +78,12 @@ const IPAddress OCTOPRINT_IP(192, 168, 1, 110);  // Octoprint server
 #endif
 
 #ifdef KEYS_INPUT  //negative pin numbers use internal pull-up
+#define KEYS_LED   0
 #define KEY_UP     -A1
 #define KEY_DOWN   -A2
 #define KEY_ESC    -A3
 #define KEY_SELECT -A4
+
 #endif
 
 #endif

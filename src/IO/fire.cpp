@@ -5,14 +5,9 @@
 /*
    SETUP
 */
-
-FireSensor::FireSensor(const uint8_t _pin) {
-  pin = _pin;
-}
-
 void FireSensor::begin() {
   title("Fire Sensor Setup");
-  pinMode(pin, INPUT_PULLDOWN);
+  pinMode(FIRE_PIN, INPUT_PULLDOWN);
 }
 /*
    LOOP
@@ -28,7 +23,7 @@ bool FireSensor::read() {
   static bool button_state           = false;
 
   if (debounce(&fire_lasttime, &last_state, &button_state,
-               digitalRead(pin), FIRE_INTERVAL)) {
+               digitalRead(FIRE_PIN), FIRE_INTERVAL)) {
     fire_state = button_state;
     return true;
   }

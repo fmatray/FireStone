@@ -14,11 +14,10 @@ typedef struct {
 
 class AmbiantSensor : public Sensor {
  public:
-  AmbiantSensor(const uint8_t _pin);
   void begin();
   void update(const ambiant_settings_t _settings);
-  bool test() { return TempHumiditySensor->read() == DHTLIB_OK; };
-  void reset(); 
+  bool test();
+  void reset();
   void run();
   bool read();
 
@@ -32,8 +31,9 @@ class AmbiantSensor : public Sensor {
   int get_humidity() { return humidity; };
 
  private:
+#ifdef USE_DHT
   DHTNEW *TempHumiditySensor;
-  uint8_t pin;
+#endif
 
   float temperature           = 0;
   status_e temperature_status = NO_CHECK;

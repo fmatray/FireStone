@@ -5,13 +5,19 @@
 
 void AirQuality::begin() {
   title("Air Quality Sensor Setup");
-  pms = new SerialPM(PMS7003, Serial1);
+  pms = new SerialPM(PMS5003ST, Serial1);
   pms->init();
   pms->wake();
 }
 
 bool AirQuality::test() { return read(); }
-bool AirQuality::read() { return pms->read() == pms->OK; }
+bool AirQuality::read() {
+  if (pms->read() == pms->OK)
+    return true;
+  status = ERROR;
+  return false;
+}
+
 void AirQuality::update(const air_quality_settings_t _settings) {
   smoke_alert   = _settings.smoke_alert;
   smoke_warning = _settings.smoke_warning;
@@ -161,13 +167,13 @@ void AirQuality::print() {
 
   if (pms->has_temperature_humidity() || pms->has_formaldehyde()) {
     Serial.print(F("Temp: "));
-    Serial.print(pms->temp, 1);
+    Serial.print(pms->temp);
     Serial.print(F(" °C"));
     Serial.print(F("\tHumidity: "));
-    Serial.print(pms->rhum, 1);
+    Serial.print(pms->rhum);
     Serial.print(F(" %rh"));
     Serial.print(F("\tFormaldehyde: "));
-    Serial.print(pms->hcho, 2);
+    Serial.print(pms->hcho);
     Serial.println(F(" mg/m3 HCHO"));
   }
   Serial.print("Smoke:");

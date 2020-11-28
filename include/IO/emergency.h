@@ -7,7 +7,7 @@
 
 class EmergencySensor : public Sensor {
  public:
-  EmergencySensor(const uint8_t _emergency_pin);
+  EmergencySensor();
   void begin();
   bool test() { return true; }
   void run();
@@ -16,7 +16,6 @@ class EmergencySensor : public Sensor {
 
  private:
   bool emergency_state;
-  uint8_t emergency_pin;
 };
 
 #endif

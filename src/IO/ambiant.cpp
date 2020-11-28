@@ -7,22 +7,32 @@
 /*
    SETUP
 */
-AmbiantSensor::AmbiantSensor(const uint8_t _pin) {
-  pin = _pin;
-}
-
 void AmbiantSensor::begin() {
   title("Ambiant Sensor Setup");
-  TempHumiditySensor = new DHTNEW(pin);
+#ifdef USE_DHT
+  TempHumiditySensor = new DHTNEW(TEMP_HUMIDITY_PIN);
+#endif
 }
+
+bool AmbiantSensor::test() {
+#ifdef USE_DHT
+  return TempHumiditySensor->read() == DHTLIB_OK;
+#else
+  return true;
+#endif
+};
 
 void AmbiantSensor::update(const ambiant_settings_t _settings) {
   min_temp_ambiant  = _settings.min_temp_ambiant;
   max_temp_ambiant  = _settings.max_temp_ambiant;
   max_humid_ambiant = _settings.max_humid_ambiant;
+#ifdef USE_DHT
   TempHumiditySensor->setTempOffset(_settings.temp_ambient_offset);
   TempHumiditySensor->setHumOffset(_settings.humid_ambient_offset);
-
+#else
+  air_quality.set_temp_offset(_settings.temp_ambient_offset);
+  air_quality.set_rhum_offset(_settings.humid_ambient_offset);
+#endif
   if (read())
     status = check();
 }
@@ -36,15 +46,18 @@ void AmbiantSensor::reset() {
    LOOP
 */
 void AmbiantSensor::run() {
-  if (check_time(TempHumiditySensor->lastRead(), 5))  // read every 5s
-  {
-    title("Ambiant");
-    if (read())
-      status = check();
-  }
+  static unsigned long lasttime = 0;
+
+  if (!check_time(lasttime, 5))
+    return;
+  lasttime = millis();
+  title("Ambiant");
+  if (read())
+    status = check();
 }
 
 bool AmbiantSensor::read() {
+#ifdef USE_DHT
   int chk = TempHumiditySensor->read();
 
   if (chk == DHTLIB_ERROR_CHECKSUM || chk == DHTLIB_ERROR_TIMEOUT) {
@@ -53,6 +66,14 @@ bool AmbiantSensor::read() {
   }
   temperature = TempHumiditySensor->getTemperature();
   humidity    = TempHumiditySensor->getHumidity();
+#else
+  if (air_quality.get_status() == ERROR) {
+    status = ERROR;
+    return false;
+  }
+  temperature = air_quality.temp();
+  humidity    = air_quality.rhum();
+#endif
   return true;
 }
 

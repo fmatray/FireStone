@@ -8,7 +8,6 @@
 
 class FireSensor : public Sensor {
  public:
-  FireSensor(const uint8_t pin);
   void begin();
   bool test() { return true; }
   void run();
@@ -17,7 +16,6 @@ class FireSensor : public Sensor {
 
  private:
   bool fire_state;
-  uint8_t pin;
 };
 
 #endif
