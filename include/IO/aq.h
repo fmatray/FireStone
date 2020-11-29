@@ -8,8 +8,9 @@
 typedef struct {
   uint8_t smoke_warning;  // nb reading thresholded before warning
   uint8_t smoke_alert;    // nb warning reading before atler
-  uint16_t smoke_pm25;    // PM2.5 threshold
-  uint16_t smoke_pm10;    // PM10 threshold
+  uint16_t smoke_pm25;    // PM2.5 smoke threshold
+  uint16_t smoke_pm10;    // PM10 smoke threshold
+  uint16_t max_hcho;      // Formaldehyde max
 } air_quality_settings_t;
 
 const struct {
@@ -33,6 +34,8 @@ class AirQuality : public Sensor {
   bool read();
   void update(const air_quality_settings_t _settings);
   status_e check();
+  status_e get_smoke_status() { return smoke_status; };
+  status_e get_hcho_status() { return hcho_status; };
 
   uint16_t pm01() { return pms->pm01; };  // µg/m3
   uint16_t pm25() { return pms->pm25; };  // µg/m3 limit: 15µg/m3
@@ -56,6 +59,8 @@ class AirQuality : public Sensor {
 
  private:
   SerialPM *pms;
+  status_e smoke_status;
+  status_e hcho_status;
 
   // Settings
   uint8_t smoke_warning;
@@ -63,6 +68,7 @@ class AirQuality : public Sensor {
   uint16_t smoke_pm25;
   uint16_t smoke_pm10;
   uint16_t smoke = 0;
+  uint16_t max_hcho;
 
   // 1h mean
   uint16_t pm01_mean_1h = 0;

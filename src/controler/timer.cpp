@@ -1,8 +1,8 @@
-#include "controler/time.h"
+#include "controler/timer.h"
 
 #include "common/global.h"
 
-bool TimeRule::proceed(Dispatcher &dispatcher) {
+bool TimerRule::proceed(Dispatcher &dispatcher) {
   if (timer.get_status() == IDLE)
     dispatcher.set(sleep, sleep, "Timer");
   if (timer.get_status() == OFF)

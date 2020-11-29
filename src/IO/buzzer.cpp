@@ -28,17 +28,28 @@ void BuzzerAction::run() {
   static unsigned long buzz_lastime = 0;
   static bool buzz_state            = false;
 
-  if (action == warn) {
-    if (check_time(buzz_lastime, 5)) {
-      buzz_lastime = millis();
-      buzz_state   = !buzz_state;
-    }
-    if (buzz_state)
-      buzz();
-  } else if (action == alert)
-    buzz();
-  else {
-    buzz_state = false;
-    no_buzz();
+  switch (action) {
+    case warn:
+      if (check_time(buzz_lastime, 2)) {
+        buzz_lastime = millis();
+        buzz_state   = !buzz_state;
+      }
+      break;
+    case alert:
+      buzz_state = true;
+    case nothing:
+    case off:
+    case sleep:
+    case wakeup:
+    case restore:
+    case err:
+    default:
+      buzz_state = false;
+      no_buzz;
+      break;
   }
+  if (buzz_state)
+    buzz();
+  else
+    no_buzz();
 }

@@ -18,6 +18,7 @@ bool AmbiantSensor::test() {
 #ifdef USE_DHT
   return TempHumiditySensor->read() == DHTLIB_OK;
 #else
+  return air_quality.test();
   return true;
 #endif
 };

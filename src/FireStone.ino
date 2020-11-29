@@ -49,12 +49,16 @@ void setup() {
 
   /* IO SETUP */
   display.IO_setup();
+
+  air_quality.begin();
+  air_quality.update(settings.air_quality_settings);
+  display.IO_test("Air Quality Sensor", air_quality.test());
+
+
   ambiant_sensor.begin();
   ambiant_sensor.update(settings.ambiant_settings);
   display.IO_test("Ambient Sensor", ambiant_sensor.test());
 
-  air_quality.begin();
-  display.IO_test("Air Quality Sensor", air_quality.test());
   emergency_sensor.begin();
   fire_sensor.begin();
 

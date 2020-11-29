@@ -2,10 +2,11 @@
 
 #include "common/helpers.h"
 #include "controler/ambiant.h"
+#include "controler/aq.h"
 #include "controler/emergency.h"
 #include "controler/fire.h"
 #include "controler/octoprint.h"
-#include "controler/time.h"
+#include "controler/timer.h"
 
 
 void Controler::begin() {
@@ -15,15 +16,16 @@ void Controler::begin() {
 #else
   pinMode(EMERGENCY_RESET_PIN, INPUT_PULLUP);
 #endif
-  for (unsigned int i = 0; i < RULES_SIZE; i++)
+  for (uint8_t i = 0; i < RULES_SIZE; i++)
     rules[i] = NULL;
   rules[0] = new FireRule();
   rules[1] = new EmergencyRule();
-  rules[2] = new OctoprintRule();
-  rules[3] = new AmbiantRule();
-  rules[4] = new TimeRule();
+  rules[2] = new AirQualityRule();
+  rules[3] = new OctoprintRule();
+  rules[4] = new AmbiantRule();
+  rules[5] = new TimerRule();
 
-  for (unsigned int i = 0; i < RULES_SIZE && rules[i]; i++)
+  for (uint8_t i = 0; i < RULES_SIZE && rules[i]; i++)
     rules[i]->begin();
   reset();
 }

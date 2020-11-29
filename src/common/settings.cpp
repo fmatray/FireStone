@@ -6,12 +6,12 @@
 #include "common/helpers.h"
 
 void SettingsData::populate(const SettingsData *obj) {
-
   /* Air Quality */
   air_quality_settings.smoke_warning = obj->air_quality_settings.smoke_warning;
   air_quality_settings.smoke_alert   = obj->air_quality_settings.smoke_alert;
   air_quality_settings.smoke_pm25    = obj->air_quality_settings.smoke_pm25;
   air_quality_settings.smoke_pm10    = obj->air_quality_settings.smoke_pm10;
+  air_quality_settings.max_hcho      = obj->air_quality_settings.max_hcho;
 
   /* Ambiant */
   ambiant_settings.temp_ambient_offset  = obj->ambiant_settings.temp_ambient_offset;
@@ -37,7 +37,7 @@ void SettingsData::populate(const SettingsData *obj) {
   timer_settings.idle_timeout = obj->timer_settings.idle_timeout;
   timer_settings.off_timeout  = obj->timer_settings.off_timeout;
 
-  checksum        = this->calculate_checksum();
+  checksum = this->calculate_checksum();
   Serial.print("Checksum:");
   Serial.println(checksum);
 }
@@ -63,6 +63,7 @@ void Settings::reset() {
   air_quality_settings.smoke_alert   = 3;
   air_quality_settings.smoke_pm25    = 150;
   air_quality_settings.smoke_pm10    = 150;
+  air_quality_settings.max_hcho      = 10;
 
   /* Ambiant */
   ambiant_settings.temp_ambient_offset  = 0;
@@ -162,6 +163,9 @@ void Settings::print() {
   Serial.println("µg/m3");
   Serial.print("Smoke PM10 thresold:");
   Serial.print(air_quality_settings.smoke_pm10);
+  Serial.println("µg/m3");
+  Serial.print("Max Formaldehyde:");
+  Serial.print(air_quality_settings.max_hcho);
   Serial.println("µg/m3");
 
   Serial.print("Octroprint Interval:");

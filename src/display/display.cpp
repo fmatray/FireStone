@@ -82,6 +82,7 @@ MENU(air_quality_menu, "Air Quality", Menu::doNothing, Menu::noEvent, Menu::noSt
      FIELD(settings.air_quality_settings.smoke_pm10, "PM10", "ug/m3", 100, 300, 50, 10, update_settings, Menu::updateEvent, Menu::noStyle),
      FIELD(settings.air_quality_settings.smoke_warning, "Warning", "", 1, 6, 1, 0, update_settings, Menu::updateEvent, Menu::noStyle),
      FIELD(settings.air_quality_settings.smoke_alert, "Alert", "", 1, 6, 1, 0, update_settings, Menu::updateEvent, Menu::noStyle),
+     FIELD(settings.air_quality_settings.max_hcho, "HCHO", "", 0, 100, 10, 1, update_settings, Menu::updateEvent, Menu::noStyle),
      EXIT("<Back"));
 
 MENU(ambiant_menu, "Ambiant", Menu::doNothing, Menu::noEvent, Menu::noStyle,

@@ -23,6 +23,7 @@ void AirQuality::update(const air_quality_settings_t _settings) {
   smoke_warning = _settings.smoke_warning;
   smoke_pm25    = _settings.smoke_pm25;
   smoke_pm10    = _settings.smoke_pm10;
+  max_hcho      = _settings.max_hcho;
 }
 
 status_e AirQuality::check() {
@@ -30,13 +31,22 @@ status_e AirQuality::check() {
     return ERROR;
 
   if (smoke >= smoke_warning + smoke_alert) {
+    smoke_status = ALERT;
     Serial.println("Smoke ALERT");
     return ALERT;
   }
   if (smoke >= smoke_warning) {
+    smoke_status = WARNING;
     Serial.println("Smoke WARNING");
     return WARNING;
   }
+  if (pms->has_formaldehyde() && pms->hcho >= max_hcho) {
+    hcho_status = ALERT;
+    Serial.println("Formaldehyde ALERT");
+    return ALERT;
+  }
+  smoke_status = OK;
+  hcho_status  = OK;
   return OK;
 }
 

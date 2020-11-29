@@ -111,7 +111,7 @@ void LCD2004::show_mode() {
 
 void LCD2004::show_datetime_ambiant() {
   printlinen(rtc_time() + "    " + rtc_date(), 0);
-  printlinen("Air Quality:" + String(air_quality.CAQI_str()), 1);
+  printlinen("AQ:" + String(air_quality.CAQI_str()), 1);
   printlinen(format_value("Temp", ambiant_sensor.get_temperature(), "C", ambiant_sensor.get_temperature_status()), 2);
   printlinen(format_value("Humid", ambiant_sensor.get_humidity(), "%", ambiant_sensor.get_humidity_status()), 3);
 }
