@@ -30,10 +30,12 @@ void Dispatcher::dispatch() {
   display.set(general, message);
   buzzer.set(buzz);
   octoprint.set(general);
+  /* !!!!!! DISABLED FOR NOW
   relay1.set(general);
   relay2.set(general);
   relay3.set(general);
   relay4.set(general);
+  */
 }
 
 void Dispatcher::print() {

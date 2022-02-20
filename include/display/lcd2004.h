@@ -17,8 +17,6 @@ class LCD2004 : public LCDXXXX {
   void octoprint_setup_done(bool success);
   void octoprint_version();
   void watchdog_setup();
-  void mqtt_setup();
-  void mqtt_setup_done(bool success);
 
   /* Start */
   void start();

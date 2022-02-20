@@ -68,20 +68,6 @@ void LCD2004::watchdog_setup() {
   delay(1000);
 }
 
-void LCD2004::mqtt_setup() {
-  clear();
-  printlinen("MQTT ", 1, true);
-};
-
-void LCD2004::mqtt_setup_done(bool success) {
-  if (success)
-    printlinen("Connected", 2, true);
-  else
-    printlinen("Connexion error", 2, true);
-  delay(2000);
-  clear();
-};
-
 /* run */
 void LCD2004::start() {
   clear();
@@ -96,7 +82,7 @@ void LCD2004::show_mode() {
       {5, &LCD2004::show_datetime_ambiant, true},
       {5, &LCD2004::show_octoprint_printer_status, true},
       {5, &LCD2004::show_printer_temps, octoprint.is_printer_operational()},
-      {2, &LCD2004::show_relays, true},
+      //{2, &LCD2004::show_relays, true},  !!!!!! DISABLED FOR NOW
       {0, NULL, false}};
 
   (this->*modes[mode_iter].func)();
@@ -117,13 +103,14 @@ void LCD2004::show_datetime_ambiant() {
 }
 
 /* Sensors */
-
+/*  !!!!!! DISABLED FOR NOW
 void LCD2004::show_relays() {
   printlinen("Relay 1:" + relay1.get_state_as_str(), 0);
   printlinen("Relay 2:" + relay2.get_state_as_str(), 1);
   printlinen("Relay 3:" + relay3.get_state_as_str(), 2);
   printlinen("Relay 4:" + relay4.get_state_as_str(), 3);
 }
+*/
 
 void LCD2004::show_octoprint_printer_status() {
   printlinen("Octoprint ", 0, true);

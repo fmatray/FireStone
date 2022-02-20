@@ -22,10 +22,12 @@ class SettingsData {
   /* Octoprint */
   octoprint_settings_t octoprint_settings;
   /* Relays */
+  /* !!!!!! DISABLED FOR NOW
   relay_settings_t relay1_settings;
   relay_settings_t relay2_settings;
   relay_settings_t relay3_settings;
   relay_settings_t relay4_settings;
+  */
   long checksum;
 };
 

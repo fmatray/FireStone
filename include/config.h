@@ -10,17 +10,11 @@
 //const char WIFI_SSID[] = "";   // your network SSID (name)
 //const char WIFI_PASSWORD[] = "";  // your network password
 //const char OCTOPRINT_APIKEY[] = ""; // Octoprint Key
-//const char MQTT_USER[] = "";
-//const char MQTT_PASSWORD[] = "";
 
 #define MDNS_NAME "firestone"
 
 /* Debug */
 #define FS_DEBUG
-
-/* MQTT */
-#define MQTT_HOST "192.168.1.110"  // Mosquitto server
-#define MQTT_PORT 1883             // Mosquitto port
 
 /* AMBIANT SENSOR */
 //#define USE_DHT
@@ -51,10 +45,12 @@ const IPAddress OCTOPRINT_IP(192, 168, 1, 110);  // Octoprint server
 #define BUZZER_ACTIVE
 
 /* Relays */
+/* !!!!!! DISABLED FOR NOW
 #define RELAY1_PIN 2
 #define RELAY2_PIN 3
 #define RELAY3_PIN 4
 #define RELAY4_PIN 5
+*/
 
 /*
  * Display

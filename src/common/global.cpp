@@ -1,7 +1,6 @@
 #include <Arduino.h>
 #include <RTCZero.h>
 
-#include "common/mqtt.h"
 #include "common/wificonnexion.h"
 #include "config.h"
 
@@ -12,14 +11,14 @@
 #include "IO/emergency.h"
 #include "IO/fire.h"
 #include "IO/octoprint.h"
-#include "IO/relay.h"
+// #include "IO/relay.h"  !!!!!! DISABLED FOR NOW
 #include "IO/timer.h"
 /* Clock */
 RTCZero rtc;
 
 /* Communication */
 WifiConnexion wificonnexion(WIFI_SSID, WIFI_PASSWORD);
-MQTT mqtt;
+
 
 /* IO */
 AmbiantSensor ambiant_sensor;
@@ -29,10 +28,12 @@ FireSensor fire_sensor;
 TimerSensor timer;
 OctoPrint octoprint;
 BuzzerAction buzzer;
+/*  !!!!!! DISABLED FOR NOW
 RelayAction relay1(RELAY1_PIN);
 RelayAction relay2(RELAY2_PIN);
 RelayAction relay3(RELAY3_PIN);
 RelayAction relay4(RELAY4_PIN);
+*/ 
 
 #if defined(DISPLAY_TYPE) && (DISPLAY_TYPE == 1602 || DISPLAY_TYPE == 2004)
 #include <LiquidCrystal_PCF8574.h>

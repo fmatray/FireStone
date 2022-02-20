@@ -40,14 +40,6 @@ void LCD1602::octoprint_version() {
 
 void LCD1602::watchdog_setup() { print2lines("Watchdog Setup", "60s", 1, true); }
 
-void LCD1602::mqtt_setup() { print2lines("Connecting", "to MQTT", 1, true); };
-void LCD1602::mqtt_setup_done(bool success) {
-  if (success)
-    print2lines("Connected", "to MQTT", 1, true);
-  else
-    print2lines("Not connected", "to MQTT", 1, true);
-};
-
 /* run */
 void LCD1602::start() { print2lines("Starting", "", 1, true); }
 void LCD1602::show_mode() {

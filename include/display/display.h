@@ -39,9 +39,7 @@ class Display : public Action {
   virtual void octoprint_setup_done(bool success)                                  = 0;
   virtual void octoprint_version()                                                 = 0;
   virtual void watchdog_setup()                                                    = 0;
-  virtual void mqtt_setup()                                                        = 0;
-  virtual void mqtt_setup_done(bool success)                                       = 0;
-
+   
   /* Run */
   virtual void start()      = 0;
   virtual void run()        = 0;

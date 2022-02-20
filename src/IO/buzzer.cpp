@@ -45,7 +45,7 @@ void BuzzerAction::run() {
     case err:
     default:
       buzz_state = false;
-      no_buzz;
+      no_buzz();
       break;
   }
   if (buzz_state)

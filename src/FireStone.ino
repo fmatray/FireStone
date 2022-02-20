@@ -71,11 +71,6 @@ void setup() {
   /* CONTROLLER SETUP */
   controler.begin();
 
-  /* MQTT SETUP */
-  display.mqtt_setup();
-  mqtt.begin();
-  display.mqtt_setup_done(mqtt.connected());
-
   /* WatchDog SETUP */
   display.watchdog_setup();
   medor.attachShutdown(shutdown);
@@ -99,6 +94,13 @@ unsigned long timer_loop1 = 0;
 unsigned long timer_loop2 = 0;
 #endif
 
+/* 
+ *
+ * MAIN LOOP
+ * Watchdog and wifi connexion
+ * 
+ */
+
 void loop() {
 #ifdef FS_DEBUG
   static unsigned long freememory_lasttime = 0;
@@ -113,10 +115,8 @@ void loop() {
   medor.clear();  // Restart Watchdog
 
   wificonnexion.run();
-  if (wificonnexion.is_connected()) {
+  if (wificonnexion.is_connected())
     octoprint.run_sensor();
-    //mqtt.run();
-  }
   delay(20);
 #ifdef FS_DEBUG
   if (millis() - timer_loop0 > 5000) {
@@ -125,6 +125,13 @@ void loop() {
   }
 #endif
 }
+
+/* 
+ *
+ * FIRST LOOP
+ * sensors and actions
+ * 
+ */
 
 void loop1() {
 #ifdef FS_DEBUG
@@ -139,12 +146,15 @@ void loop1() {
   /* Run Controler */
   controler.run();
 
-  /* Run Actions */
-  //  octoprint.run_action();
+  /* Run Actions  !!!!!! DISABLED FOR NOW
+  octoprint.run_action();
+
   relay1.run();
   relay2.run();
   relay3.run();
   relay4.run();
+  */
+ 
 #ifdef FS_DEBUG
   if (millis() - timer_loop1 > 5000) {
     Serial.print("Loop1: ");
@@ -153,6 +163,13 @@ void loop1() {
 #endif
   yield();
 }
+
+/* 
+ *
+ * SECOND LOOP
+ * sensors and Buzzer
+ * 
+ */
 
 void loop2() {
 #ifdef FS_DEBUG
@@ -171,7 +188,12 @@ void loop2() {
   yield();
 }
 
-/* Shutdown by watchdog */
+/* 
+ * 
+ * Shutdown by watchdog 
+ * 
+ */
+
 void shutdown() {
   title("HO NO! Something went wrong...");
   title("You can start to pray.");

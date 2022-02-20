@@ -100,6 +100,7 @@ MENU(octoprint_menu, "Octoprint", Menu::doNothing, Menu::noEvent, Menu::noStyle,
      FIELD(settings.octoprint_settings.max_temp_bed, "Bed Max", CELCIUS, 0, 120, 10, 5, update_settings, Menu::updateEvent, Menu::noStyle),
      EXIT("<Back"));
 
+/*  !!!!!! DISABLED FOR NOW
 RELAY_INVERTED(settings.relay1_settings.inverted, relay1_inverted_menu);
 RELAY_SWITCH_STATUS(settings.relay1_settings.switch_action, relay1_switch_status_menu);
 MENU(relay1_menu, "Relay 1", Menu::doNothing, Menu::noEvent, Menu::noStyle,
@@ -127,6 +128,7 @@ MENU(relays_menu, "Relays", Menu::doNothing, Menu::noEvent, Menu::noStyle,
      SUBMENU(relay3_menu),
      SUBMENU(relay4_menu),
      EXIT("<Back"));
+*/
 
 TIMEOUT_MENU(settings.timer_settings.idle_timeout, idle_timeout_menu, "Idle:");
 TIMEOUT_MENU(settings.timer_settings.off_timeout, off_timeout_menu, "Off:");
@@ -144,7 +146,7 @@ MENU(main_menu, "Menu", Menu::doNothing, Menu::noEvent, Menu::noStyle,
      SUBMENU(air_quality_menu),
      SUBMENU(ambiant_menu),
      SUBMENU(octoprint_menu),
-     SUBMENU(relays_menu),
+     //SUBMENU(relays_menu),
      SUBMENU(advanced_menu),
      OP("Save settings", save_settings, enterEvent),
      EXIT("<Exit"));

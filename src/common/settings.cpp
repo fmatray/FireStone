@@ -27,10 +27,12 @@ void SettingsData::populate(const SettingsData *obj) {
   octoprint_settings.max_temp_bed  = obj->octoprint_settings.max_temp_bed;
 
   /* Relays */
+  /* !!!!!! DISABLED FOR NOW
   relay1_settings = obj->relay1_settings;
   relay2_settings = obj->relay2_settings;
   relay3_settings = obj->relay3_settings;
   relay4_settings = obj->relay4_settings;
+  */
 
   /* timezone & timer */
   timezone_offset             = obj->timezone_offset;
@@ -79,6 +81,7 @@ void Settings::reset() {
   octoprint_settings.max_temp_bed  = 120;
 
   /* Relays */
+  /* !!!!!! DISABLED FOR NOW
   relay1_settings.inverted      = false;
   relay1_settings.switch_action = alert;
   relay2_settings.inverted      = false;
@@ -87,7 +90,7 @@ void Settings::reset() {
   relay3_settings.switch_action = alert;
   relay4_settings.inverted      = false;
   relay4_settings.switch_action = alert;
-
+  */
   _changed = false;
 }
 
@@ -111,10 +114,12 @@ void Settings::update() {
   air_quality.update(air_quality_settings);
   ambiant_sensor.update(ambiant_settings);
   octoprint.update(octoprint_settings);
+  /* !!!!!! DISABLED FOR NOW
   relay1.update(relay1_settings);
   relay2.update(relay2_settings);
   relay3.update(relay3_settings);
   relay4.update(relay4_settings);
+  */
   timer.update(timer_settings);
   _changed = false;
 }
@@ -180,7 +185,7 @@ void Settings::print() {
   Serial.print("Max temp bed:");
   Serial.print(octoprint_settings.max_temp_bed);
   Serial.println("°C");
-
+  /* !!!!!! DISABLED FOR NOW
   Serial.print("Relay1:");
   Serial.print((relay1_settings.inverted ? "" : "not "));
   Serial.print("inverted ");
@@ -197,4 +202,5 @@ void Settings::print() {
   Serial.print((relay2_settings.inverted ? "" : "not "));
   Serial.print("inverted ");
   Serial.println("Switch on:" + action_str(relay1_settings.switch_action));
+  */
 }

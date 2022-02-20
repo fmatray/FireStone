@@ -18,8 +18,6 @@ class LCD1602 : public LCDXXXX {
 
   void octoprint_version();
   void watchdog_setup();
-  void mqtt_setup();
-  void mqtt_setup_done(bool success);
 
   /* Start */
   void start();
